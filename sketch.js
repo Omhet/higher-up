@@ -78,7 +78,7 @@ function gravity() {
 function heroMove() {
 	const hsp = hero.sprite;
 
-	const Y_CONSTRAIN = 10;
+	const Y_CONSTRAIN = 2;
 
 	// Constrain Y velocity
 	let vy = hsp.velocity.y;
@@ -92,7 +92,7 @@ function heroMove() {
 		hsp.position.x += hero.speed;
 	}
 	if (keyWentDown('space')) {
-			if (vy >= Y_CONSTRAIN - 4) {
+			if (vy >= Y_CONSTRAIN) {
 				hsp.velocity.y = HERO_JUMP_FORCE;
 			}
 	}
@@ -100,7 +100,7 @@ function heroMove() {
 
 function heroCollidePlatforms() {
 	platforms.forEach(p => {
-		if (hero.sprite.velocity.y > 0) {
+		if (hero.sprite.velocity.y > 0 && hero.sprite.overlap(p)) {
 			hero.sprite.collide(p);
 		}
 	});
