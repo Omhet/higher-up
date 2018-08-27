@@ -1,12 +1,24 @@
-// Constants
+// Constants for game
+W = 800;
+H = 600;
+HALF_W = W / 2;
+HALF_H = H / 2;
+
+DISPLAY_SPEED = -0.5;
+
+
+// Constants for objects
 G = 0.2;
 HERO_SPEED = 5;
+HERO_SIZE = 50;
 HERO_JUMP_FORCE = -7;
 PLATFORM_MIN_SIZE = 50;
 PLATFORM_MAX_SIZE = 300;
 PLATFORM_NUM = 8;
 
 // Globals
+let displayFrame = {};
+
 const allObjects = [];
 let platforms = {};
 
@@ -14,12 +26,16 @@ let platforms = {};
 const hero = {};
 
 
-
 // Setup Functions
+function setupDisplayFrame() {
+	displayFrame = createSprite(HALF_W, HALF_H, W, 2 * H);
+	displayFrame.shapeColor = color(240, 230, 140);
+}
+
 function platformsSetup(n) {
 	platforms = new Group();
 
-	const basePlatform = new Platform(400, 400, 200, 20);
+	const basePlatform = new Platform(HALF_W, HALF_H, 200, 20);
 	allObjects.push(basePlatform);
 	platforms.add(basePlatform.sprite);
 
@@ -46,7 +62,7 @@ function platformsSetup(n) {
 
 function heroSetup() {
 	hero.static = false;
-	hero.sprite = createSprite(400, 200, 50, 50);
+	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
 	hero.sprite.shapeColor = color(222, 125, 20);
 	hero.speed = HERO_SPEED;
 	hero.sprite.collide(platforms[0]);
@@ -56,7 +72,9 @@ function heroSetup() {
 
 
 function setup() {
-	createCanvas(800, 600);
+	createCanvas(W, H);
+
+	setupDisplayFrame();
 
 	platformsSetup(PLATFORM_NUM);
 
@@ -111,13 +129,44 @@ function cameraFollowHero() {
 	camera.position.y = hero.sprite.position.y;
 }
 
+function logging(data) {
+	if (frameCount % 20 === 0) {
+		console.log(data);
+	}
+}
+
+function moveDisplay() {
+	const ht = hero.sprite.position.y + hero.sprite.height / 2;
+	displayFrame.position.x = hero.sprite.position.x;
+	if (ht < displayFrame.position.y) {
+		displayFrame.position.y -= displayFrame.height / 6;
+	}
+	displayFrame.velocity.y = DISPLAY_SPEED;
+}
+
+function collideDisplay() {
+	allSprites.forEach(sp => {
+		const spb = sp.position.y + sp.height / 2;
+		const dfb =  displayFrame.position.y + displayFrame.height / 2;
+		if (spb > dfb) {
+			sp.remove();
+		}
+	});
+}
+
+
 function draw() {
 	background(210, 255, 255);
+
+	moveDisplay();
+	collideDisplay();
 
 	gravity();
 	heroCollidePlatforms();
 	heroMove();
 	cameraFollowHero();
+
+	// logging(hero.sprite.position.x);
 
 	drawSprites();
 }
