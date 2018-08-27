@@ -39,9 +39,14 @@ function platformsSetup(n) {
 	allObjects.push(basePlatform);
 	platforms.add(basePlatform.sprite);
 
+	const min_X = displayFrame.position.x - displayFrame.width / 2;
+	const max_X = displayFrame.position.x + displayFrame.width / 2;
+	const min_Y = displayFrame.position.y - displayFrame.height / 2;
+	const max_Y = hero.sprite.position.y - hero.sprite.height / 4;
+
 	for (let i = 0; i < n; i++) {
-		let x = random(0, width);
-		let y = random(0, height);
+		let x = random(min_X, max_X);
+		let y = random(min_Y, max_Y);
 		const w = random(PLATFORM_MIN_SIZE, PLATFORM_MAX_SIZE);
 		const h = 20;
 
@@ -65,7 +70,7 @@ function heroSetup() {
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
 	hero.sprite.shapeColor = color(222, 125, 20);
 	hero.speed = HERO_SPEED;
-	hero.sprite.collide(platforms[0]);
+	// hero.sprite.collide(platforms[0]);
 
 	allObjects.push(hero);
 }
@@ -76,9 +81,10 @@ function setup() {
 
 	setupDisplayFrame();
 
+	heroSetup();
+
 	platformsSetup(PLATFORM_NUM);
 
-	heroSetup();
 
 }
 
