@@ -106,12 +106,18 @@ function heroCollidePlatforms() {
 	});
 }
 
+function cameraFollowHero() {
+	camera.position.x = hero.sprite.position.x;
+	camera.position.y = hero.sprite.position.y;
+}
+
 function draw() {
 	background(210, 255, 255);
 
 	gravity();
 	heroCollidePlatforms();
 	heroMove();
+	cameraFollowHero();
 
 	drawSprites();
 }
