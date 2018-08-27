@@ -15,13 +15,17 @@ HERO_JUMP_FORCE = -10;
 PLATFORM_MIN_SIZE = 50;
 PLATFORM_MAX_SIZE = 300;
 PLATFORM_NUM = 16;
-PLATFORM_MAX_NUM = 150;
+PLATFORM_MAX_NUM = 100;
+
+ENEMIES_NUM = 10;
+ENEMY_SIZE = HERO_SIZE;
 
 // Globals
 let displayFrame = {};
 
 const allObjects = [];
 let platforms = {};
+let enemies = {};
 
 // Create Hero
 const hero = {};
@@ -69,6 +73,27 @@ function platformsSetup(n) {
 	createPlatformsRightPlace(PLATFORM_NUM);
 }
 
+function enemiesSetup() {
+	enemies = new Group();
+
+	for (let i = 0; i < ENEMIES_NUM; i++) {
+		let randIndex = round(random(1, platforms.length - 1));
+		let choosenPlatform = platforms[randIndex];
+		let x = choosenPlatform.position.x;
+		let y = choosenPlatform.position.y - 80;
+		let en = new Enemy(x, y, ENEMY_SIZE);
+		while (en.sprite.overlap(enemies)) {
+			randIndex = round(random(0, platforms.length - 1));
+			choosenPlatform = platforms[randIndex];
+			x = choosenPlatform.position.x;
+			y = choosenPlatform.position.y;
+			en = new Enemy(x, y, ENEMY_SIZE);
+		}
+		enemies.add(en.sprite);
+		allObjects.push(en);
+	}
+}
+
 function heroSetup() {
 	hero.static = false;
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
@@ -88,6 +113,10 @@ function setup() {
 
 	platformsSetup();
 
+	enemiesSetup();
+
+	camera.zoom = 0.3;
+
 
 }
 
@@ -96,6 +125,7 @@ function gravity() {
 		if (ob.static) return;
 		const sp = ob.sprite;
 		sp.addSpeed(G, 90);
+		sp.velocity.y = (sp.velocity.y > 7) ? 7 : sp.velocity.y;
 	});
 }
 
@@ -133,6 +163,9 @@ function heroCollidePlatforms() {
 function cameraFollowHero() {
 	camera.position.x = hero.sprite.position.x;
 	camera.position.y = hero.sprite.position.y;
+
+	// camera.position.x = enemies[0].position.x;
+	// camera.position.y = enemies[0].position.y;
 }
 
 function logging(data) {
@@ -160,28 +193,19 @@ function collideDisplay() {
 	});
 }
 
-let pid = [];
-function platformsInDisplay() {
-	platforms.forEach(p => {
-		if (p.overlap(displayFrame)) {
-			p.inDisplay = true;
-		} else {
-			p.inDisplay = false;
-		}
-	});
-	pid = platforms.filter(p => p.inDisplay);
-}
-
 function createPlatformsRightTime() {
 	if (platforms.length < PLATFORM_MAX_NUM) {
-		createPlatformsRightPlace(1);
+		createPlatformsRightPlace();
 	}
 }
 
-function limitPlatforms() {
-	while (platforms.length > PLATFORM_MAX_NUM) {
-		platforms.pop();
-		// console.log('msg')
+function enemiesCollidePlatforms() {
+	enemies.collide(platforms);
+}
+
+function heroCollideEnemies() {
+	if (hero.sprite.overlap(enemies)) {
+		hero.sprite.remove();
 	}
 }
 
@@ -194,14 +218,13 @@ function draw() {
 
 	gravity();
 	heroCollidePlatforms();
+	enemiesCollidePlatforms();
+	heroCollideEnemies();
 	heroMove();
 	cameraFollowHero();
 
-	platformsInDisplay();
-
-	// limitPlatforms();
 	createPlatformsRightTime();
-	// logging(hero.sprite.position.x);
+	// logging(hero.sprite.velocity.y);
 
 	drawSprites();
 }
