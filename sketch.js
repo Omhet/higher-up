@@ -4,17 +4,18 @@ H = 600;
 HALF_W = W / 2;
 HALF_H = H / 2;
 
-DISPLAY_SPEED = -0.5;
+DISPLAY_SPEED = 0;
 
 
 // Constants for objects
 G = 0.2;
 HERO_SPEED = 5;
 HERO_SIZE = 50;
-HERO_JUMP_FORCE = -7;
+HERO_JUMP_FORCE = -10;
 PLATFORM_MIN_SIZE = 50;
 PLATFORM_MAX_SIZE = 300;
-PLATFORM_NUM = 8;
+PLATFORM_NUM = 16;
+PLATFORM_MAX_NUM = 150;
 
 // Globals
 let displayFrame = {};
@@ -32,19 +33,13 @@ function setupDisplayFrame() {
 	displayFrame.shapeColor = color(240, 230, 140);
 }
 
-function platformsSetup(n) {
-	platforms = new Group();
-
-	const basePlatform = new Platform(HALF_W, HALF_H, 200, 20);
-	allObjects.push(basePlatform);
-	platforms.add(basePlatform.sprite);
-
-	const min_X = displayFrame.position.x - displayFrame.width / 2;
-	const max_X = displayFrame.position.x + displayFrame.width / 2;
-	const min_Y = displayFrame.position.y - displayFrame.height / 2;
+function createPlatformsRightPlace() {
+	const min_X = (displayFrame.position.x - displayFrame.width / 2) - displayFrame.width * 3;
+	const max_X = (displayFrame.position.x + displayFrame.width / 2) + displayFrame.width * 3;
+	const min_Y = (displayFrame.position.y - displayFrame.height / 2) - displayFrame.height * 2;
 	const max_Y = hero.sprite.position.y - hero.sprite.height / 4;
 
-	for (let i = 0; i < n; i++) {
+	for (let i = 0; i < PLATFORM_NUM; i++) {
 		let x = random(min_X, max_X);
 		let y = random(min_Y, max_Y);
 		const w = random(PLATFORM_MIN_SIZE, PLATFORM_MAX_SIZE);
@@ -62,7 +57,16 @@ function platformsSetup(n) {
 		allObjects.push(newPlatform);
 		platforms.add(newPlatform.sprite);
 	}
+}
 
+function platformsSetup(n) {
+	platforms = new Group();
+
+	const basePlatform = new Platform(HALF_W, HALF_H, 200, 20);
+	allObjects.push(basePlatform);
+	platforms.add(basePlatform.sprite);
+
+	createPlatformsRightPlace(PLATFORM_NUM);
 }
 
 function heroSetup() {
@@ -70,7 +74,6 @@ function heroSetup() {
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
 	hero.sprite.shapeColor = color(222, 125, 20);
 	hero.speed = HERO_SPEED;
-	// hero.sprite.collide(platforms[0]);
 
 	allObjects.push(hero);
 }
@@ -83,7 +86,7 @@ function setup() {
 
 	heroSetup();
 
-	platformsSetup(PLATFORM_NUM);
+	platformsSetup();
 
 
 }
@@ -157,6 +160,31 @@ function collideDisplay() {
 	});
 }
 
+let pid = [];
+function platformsInDisplay() {
+	platforms.forEach(p => {
+		if (p.overlap(displayFrame)) {
+			p.inDisplay = true;
+		} else {
+			p.inDisplay = false;
+		}
+	});
+	pid = platforms.filter(p => p.inDisplay);
+}
+
+function createPlatformsRightTime() {
+	if (platforms.length < PLATFORM_MAX_NUM) {
+		createPlatformsRightPlace(1);
+	}
+}
+
+function limitPlatforms() {
+	while (platforms.length > PLATFORM_MAX_NUM) {
+		platforms.pop();
+		// console.log('msg')
+	}
+}
+
 
 function draw() {
 	background(210, 255, 255);
@@ -169,6 +197,10 @@ function draw() {
 	heroMove();
 	cameraFollowHero();
 
+	platformsInDisplay();
+
+	// limitPlatforms();
+	createPlatformsRightTime();
 	// logging(hero.sprite.position.x);
 
 	drawSprites();
