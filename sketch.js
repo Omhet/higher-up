@@ -87,20 +87,17 @@ function gravity() {
 		if (ob.static) return;
 		const sp = ob.sprite;
 		sp.addSpeed(G, 90);
-		if (sp.position.y > height + 100) {
-			sp.remove();
-		}
 	});
 }
 
 function heroMove() {
 	const hsp = hero.sprite;
 
-	const Y_CONSTRAIN = 2;
+	const Y_CONSTRAIN = 7;
 
 	// Constrain Y velocity
 	let vy = hsp.velocity.y;
-	vy = (vy > Y_CONSTRAIN) ? Y_CONSTRAIN : vy;
+	hsp.velocity.y = (hsp.velocity.y > Y_CONSTRAIN) ? Y_CONSTRAIN : hsp.velocity.y;
 
 	// Key Controls
 	if (keyDown('a')) {
