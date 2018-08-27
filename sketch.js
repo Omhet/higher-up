@@ -1,7 +1,7 @@
 // Constants
 G = 0.2;
 HERO_SPEED = 5;
-HERO_JUMP_FORCE = -8;
+HERO_JUMP_FORCE = -7;
 PLATFORM_MIN_SIZE = 50;
 PLATFORM_MAX_SIZE = 300;
 PLATFORM_NUM = 8;
@@ -41,6 +41,7 @@ function platformsSetup(n) {
 		allObjects.push(newPlatform);
 		platforms.add(newPlatform.sprite);
 	}
+
 }
 
 function heroSetup() {
@@ -48,6 +49,8 @@ function heroSetup() {
 	hero.sprite = createSprite(400, 200, 50, 50);
 	hero.sprite.shapeColor = color(222, 125, 20);
 	hero.speed = HERO_SPEED;
+	hero.sprite.collide(platforms[0]);
+
 	allObjects.push(hero);
 }
 
@@ -96,7 +99,11 @@ function heroMove() {
 }
 
 function heroCollidePlatforms() {
-	hero.sprite.collide(platforms);
+	platforms.forEach(p => {
+		if (hero.sprite.velocity.y > 0) {
+			hero.sprite.collide(p);
+		}
+	});
 }
 
 function draw() {
