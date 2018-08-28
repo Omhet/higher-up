@@ -6,6 +6,7 @@ HALF_H = H / 2;
 
 DISPLAY_SPEED = 0;
 
+CAMERA_ZOOM = 0.3;
 
 // Constants for objects
 G = 0.2;
@@ -23,7 +24,6 @@ ENEMY_SIZE = HERO_SIZE;
 // Globals
 let displayFrame = {};
 
-const allObjects = [];
 let platforms = {};
 let enemies = {};
 
@@ -58,16 +58,14 @@ function createPlatformsRightPlace() {
 			newPlatform = new Platform(x, y, w, h);
 		}
 
-		allObjects.push(newPlatform);
 		platforms.add(newPlatform.sprite);
 	}
 }
 
-function platformsSetup(n) {
+function platformsSetup() {
 	platforms = new Group();
 
 	const basePlatform = new Platform(HALF_W, HALF_H, 200, 20);
-	allObjects.push(basePlatform);
 	platforms.add(basePlatform.sprite);
 
 	createPlatformsRightPlace(PLATFORM_NUM);
@@ -90,7 +88,6 @@ function enemiesSetup() {
 			en = new Enemy(x, y, ENEMY_SIZE);
 		}
 		enemies.add(en.sprite);
-		allObjects.push(en);
 	}
 }
 
@@ -99,8 +96,6 @@ function heroSetup() {
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
 	hero.sprite.shapeColor = color(222, 125, 20);
 	hero.speed = HERO_SPEED;
-
-	allObjects.push(hero);
 }
 
 
@@ -115,15 +110,13 @@ function setup() {
 
 	enemiesSetup();
 
-	camera.zoom = 0.3;
+	camera.zoom = CAMERA_ZOOM;
 
 
 }
 
 function gravity() {
-	allObjects.forEach(ob => {
-		if (ob.static) return;
-		const sp = ob.sprite;
+	allSprites.forEach(sp => {
 		sp.addSpeed(G, 90);
 		sp.velocity.y = (sp.velocity.y > 7) ? 7 : sp.velocity.y;
 	});
