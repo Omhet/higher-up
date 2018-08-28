@@ -10,7 +10,7 @@ H = 600;
 HALF_W = W / 2;
 HALF_H = H / 2;
 
-DISPLAY_SPEED = 0;
+DISPLAY_SPEED = -0.9;
 
 CAMERA_ZOOM = 0.5;
 
@@ -23,6 +23,7 @@ HERO_SPEED = 5;
 HERO_SIZE = 50;
 HERO_JUMP_FORCE = -10;
 HERO_COLOR = 'rgb(222, 125, 20)';
+HERO_MAX_SHOTS_NUM = 5;
 
 // Platforms
 PLATFORM_MIN_SIZE = 50;
@@ -59,7 +60,7 @@ const hero = {};
 // Setup Functions
 function setupDisplayFrame() {
 	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, H / CAMERA_ZOOM);
-	displayFrame.shapeColor = color('rgba(220, 220, 220, 0)');
+	displayFrame.shapeColor = color('rgba(220, 220, 220, 0.5)');
 }
 
 function platformsSpawn(n) {
@@ -122,8 +123,7 @@ function enemiesSpawn(n) {
 }
 
 function heroSetup() {
-	hero.MAX_SHOTS_NUM = 100;
-	hero.curShotsNum = hero.MAX_SHOTS_NUM;
+	hero.curShotsNum = HERO_MAX_SHOTS_NUM;
 	hero.shots = new Group();
 
 	hero.speed = HERO_SPEED;
@@ -293,6 +293,11 @@ function heroShoot() {
 
 }
 
+function restoreHeroShots() {
+	if (frameCount % 200 === 0 && hero.curShotsNum < HERO_MAX_SHOTS_NUM) {
+		hero.curShotsNum++;
+	}
+}
 
 
 
@@ -384,6 +389,7 @@ function draw() {
 	heroCollidePlatforms();
 	heroCollideEnemies();
 	heroShoot();
+	restoreHeroShots();
 	heroMove();
 	cameraFollowHero();
 
