@@ -38,6 +38,8 @@ const grid = [];
 let height = 0;
 let maxHeight = 0;
 
+let gameOver = false;
+
 // Create Hero
 const hero = {};
 
@@ -152,6 +154,7 @@ function heroSetup() {
 	hero.static = false;
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
 	hero.sprite.shapeColor = color(222, 125, 20);
+	hero.sprite.isHero = true;
 	hero.speed = HERO_SPEED;
 }
 
@@ -184,7 +187,7 @@ function setup() {
 	localStorageSetup();
 
 	maxHeightScoreEl = document.getElementById('max-height-score');
-	guiEl = document.getElementById('gui')
+	// guiEl = document.getElementById('gui');
 }
 
 function gravity() {
@@ -251,6 +254,7 @@ function cameraFollowHero() {
 function heroDeath() {
 	hero.sprite.remove();
 	hero.dead = true;
+	gameOver = true;
 }
 
 function heroCollideEnemies() {
@@ -268,7 +272,8 @@ function logging(data) {
 
 function moveDisplay() {
 	const ht = hero.sprite.position.y + hero.sprite.height / 2;
-	displayFrame.position.x = hero.sprite.position.x;
+	if (!hero.dead)
+		displayFrame.position.x = hero.sprite.position.x;
 	if (ht < displayFrame.position.y) {
 		displayFrame.position.y -= displayFrame.height / 6;
 	}
@@ -281,6 +286,9 @@ function collideDisplay() {
 		const dfb =  displayFrame.position.y + displayFrame.height / 2;
 		if (spb > dfb) {
 			sp.remove();
+			if (sp.isHero) {
+				heroDeath();
+			}
 		}
 	});
 }
@@ -336,6 +344,7 @@ function draw() {
 
 	// camera.off();
 	drawMaxHeightText();
+
 }
 
 
