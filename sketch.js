@@ -20,6 +20,7 @@ PLATFORM_START_NUM = 10;
 PLATFORM_MAX_NUM = 100;
 
 ENEMIES_NUM = 10;
+ENEMY_MAX_NUM = 10;
 ENEMY_SIZE = HERO_SIZE;
 
 // Globals
@@ -120,13 +121,12 @@ function platformsSetup() {
 	const basePlatform = new Platform(HALF_W, HALF_H, 200, 20);
 	platforms.add(basePlatform.sprite);
 
-	createPlatformsRightPlace(PLATFORM_START_NUM);
+	// createPlatformsRightPlace(PLATFORM_START_NUM);
 }
 
-function enemiesSetup() {
-	enemies = new Group();
+function enemiesSpawn(n) {
 
-	for (let i = 0; i < ENEMIES_NUM; i++) {
+	for (let i = 0; i < n; i++) {
 		let randIndex = round(random(1, platforms.length - 1));
 		let choosenPlatform = platforms[randIndex];
 		let x = choosenPlatform.position.x;
@@ -161,7 +161,10 @@ function setup() {
 
 	platformsSetup();
 
-	enemiesSetup();
+	enemies = new Group();
+
+
+	// enemiesSetup();
 
 	// createGrid();
 
@@ -265,12 +268,15 @@ function createPlatformsRightTime() {
 	}
 }
 
+function createEnemiesRightTime() {
+	if (enemies.length < ENEMY_MAX_NUM) {
+		enemiesSpawn(ENEMY_MAX_NUM - enemies.length);
+	}
+}
+
 function enemiesCollidePlatforms() {
 	enemies.collide(platforms);
 }
-
-
-
 
 function draw() {
 	background(210, 255, 255);
@@ -286,9 +292,8 @@ function draw() {
 	cameraFollowHero();
 
 	createPlatformsRightTime();
+	createEnemiesRightTime();
 	// logging(hero.sprite.velocity.y);
-
-	// drawGrid();
 
 	drawSprites();
 }
