@@ -6,10 +6,10 @@ HALF_H = H / 2;
 
 DISPLAY_SPEED = 0;
 
-CAMERA_ZOOM = 0.12;
+CAMERA_ZOOM = 0.17;
 
 // Constants for objects
-G = 0.2;
+G = 0;
 SPRITE_VELOCITY_Y_MAX = 7;
 HERO_SPEED = 5;
 HERO_SIZE = 50;
@@ -17,7 +17,7 @@ HERO_JUMP_FORCE = -10;
 PLATFORM_MIN_SIZE = 50;
 PLATFORM_MAX_SIZE = 300;
 PLATFORM_NUM = 16;
-PLATFORM_MAX_NUM = 50;
+PLATFORM_MAX_NUM = 100;
 
 ENEMIES_NUM = 10;
 ENEMY_SIZE = HERO_SIZE;
@@ -27,6 +27,8 @@ let displayFrame = {};
 
 let platforms = {};
 let enemies = {};
+
+const grid = [];
 
 // Create Hero
 const hero = {};
@@ -39,6 +41,26 @@ function setupDisplayFrame() {
 }
 
 function createGrid() {
+	const min_X = (displayFrame.position.x - displayFrame.width / 2) - displayFrame.width * 3;
+	const max_X = (displayFrame.position.x + displayFrame.width / 2) + displayFrame.width * 3;
+	const min_Y = (displayFrame.position.y - displayFrame.height / 2) - displayFrame.height;
+	const max_Y = hero.sprite.position.y - hero.sprite.height / 4;
+
+	const w = max_X - min_X;
+	const h = max_Y - min_Y;
+	for (let i = min_X; i < max_X; i += HERO_SIZE) {
+		for (let j = min_Y; j < max_Y; j += HERO_SIZE) {
+			const cell = {
+				x: i,
+				y: j,
+				occupied: false
+			};
+			grid.push(cell);
+		}
+	}
+}
+
+function drawGrid() {
 	push();
 	noFill();
 	stroke(51);
@@ -66,22 +88,25 @@ function createPlatformsRightPlace() {
 	const max_Y = hero.sprite.position.y - hero.sprite.height / 4;
 
 	for (let i = 0; i < PLATFORM_NUM; i++) {
-		let x = random(min_X, max_X);
-		let y = random(min_Y, max_Y);
-		x -= x % HERO_SIZE;
-		y -= y % HERO_SIZE;
+		let x = round(random(min_X, max_X));
+		let y = round(random(min_Y, max_Y));
 
-		const w = random(PLATFORM_MIN_SIZE, PLATFORM_MAX_SIZE);
+		x -= x % HERO_SIZE;
+		y -= y % (HERO_SIZE * 2);
+
+
+		let w = round(random(HERO_SIZE, HERO_SIZE * 4));
+		w -= w % HERO_SIZE;
 		const h = 20;
 
 		let newPlatform = new Platform(x, y, w, h);
 
 		while (newPlatform.sprite.overlap(platforms)) {
 			newPlatform.sprite.remove();
-			x = random(min_X, max_X);
-			y = random(min_Y, max_Y);
+			x = round(random(min_X, max_X));
+			y = round(random(min_Y, max_Y));
 			x -= x % HERO_SIZE;
-			y -= y % HERO_SIZE;
+			y -= y % (HERO_SIZE * 2);
 			newPlatform = new Platform(x, y, w, h);
 		}
 
@@ -105,14 +130,14 @@ function enemiesSetup() {
 		let randIndex = round(random(1, platforms.length - 1));
 		let choosenPlatform = platforms[randIndex];
 		let x = choosenPlatform.position.x;
-		let y = choosenPlatform.position.y - 80;
+		let y = choosenPlatform.position.y - ENEMY_SIZE;
 		let en = new Enemy(x, y, ENEMY_SIZE);
 		while (en.sprite.overlap(enemies)) {
 			en.sprite.remove();
 			randIndex = round(random(0, platforms.length - 1));
 			choosenPlatform = platforms[randIndex];
 			x = choosenPlatform.position.x;
-			y = choosenPlatform.position.y;
+			y = choosenPlatform.position.y - ENEMY_SIZE;
 			en = new Enemy(x, y, ENEMY_SIZE);
 		}
 		enemies.add(en.sprite);
@@ -137,6 +162,8 @@ function setup() {
 	platformsSetup();
 
 	enemiesSetup();
+
+	// createGrid();
 
 	camera.zoom = CAMERA_ZOOM;
 
@@ -258,7 +285,7 @@ function draw() {
 	createPlatformsRightTime();
 	// logging(hero.sprite.velocity.y);
 
-	createGrid();
+	// drawGrid();
 
 	drawSprites();
 }
