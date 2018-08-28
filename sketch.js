@@ -69,7 +69,7 @@ function preload() {
 // Setup Functions
 function setupDisplayFrame() {
 	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, H / CAMERA_ZOOM);
-	displayFrame.shapeColor = color('rgba(210, 255, 255, 0.5)');
+	displayFrame.shapeColor = color('rgba(210, 255, 255, 0.9)');
 }
 
 function platformsSpawn(n) {
@@ -274,13 +274,6 @@ function drawArrow(base, vec, myColor) {
   pop();
 }
 
-function heroArrow() {
-	const heroVec = createVector(hero.sprite.position.x, hero.sprite.position.y);
-	const pointToShootVec = createVector(mouseX - HALF_W, mouseY - HALF_H);
-	pointToShootVec.normalize();
-	drawArrow(heroVec, pointToShootVec, 'black');
-}
-
 let magOfShootVec = 0;
 function heroShoot() {
 	const heroVec = createVector(hero.sprite.position.x, hero.sprite.position.y);
@@ -305,7 +298,7 @@ function heroShoot() {
 		magOfShootVec = 0;
 	}
 
-	drawArrow(heroVec, pointToShootVec, 'black');
+	drawArrow(heroVec, pointToShootVec, 'rgba(0, 0, 0, 0.3)');
 
 }
 
@@ -397,7 +390,7 @@ function updateGUI() {
 }
 
 function draw() {
-	background('rgba(0, 0, 0, 0.3)');
+	background('rgba(20, 20, 30, 0.3)');
 
 	moveDisplay();
 	collideDisplay();
@@ -406,7 +399,6 @@ function draw() {
 
 	heroCollidePlatforms();
 	heroCollideEnemies();
-	heroShoot();
 	restoreHeroShots();
 	heroMove();
 	cameraFollowHero();
@@ -424,6 +416,8 @@ function draw() {
 	// logging({maxHeight});
 
 	drawSprites();
+
+	heroShoot();
 
 	updateGUI();
 
