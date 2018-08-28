@@ -24,6 +24,7 @@ HERO_SIZE = 50;
 HERO_JUMP_FORCE = -10;
 HERO_COLOR = 'rgb(222, 125, 20)';
 HERO_MAX_SHOTS_NUM = 5;
+HERO_IMG = {};
 
 // Platforms
 PLATFORM_MIN_SIZE = 50;
@@ -56,6 +57,11 @@ let gameOver = false;
 // Create Hero
 const hero = {};
 
+
+function preload() {
+	HERO_IMG = loadImage('images/hero_1.png');
+
+}
 
 // Setup Functions
 function setupDisplayFrame() {
@@ -129,7 +135,10 @@ function heroSetup() {
 	hero.speed = HERO_SPEED;
 
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
-	hero.sprite.shapeColor = color(HERO_COLOR);
+	// hero.sprite.shapeColor = color(HERO_COLOR);
+	HERO_IMG.resize(HERO_SIZE, HERO_SIZE);
+	hero.sprite.addImage(HERO_IMG);
+
 	hero.sprite.isHero = true;
 }
 
