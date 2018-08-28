@@ -19,7 +19,6 @@ PLATFORM_MAX_SIZE = 300;
 PLATFORM_START_NUM = 10;
 PLATFORM_MAX_NUM = 100;
 
-ENEMIES_NUM = 10;
 ENEMY_MAX_NUM = 10;
 ENEMY_SIZE = HERO_SIZE;
 
@@ -123,7 +122,6 @@ function platformsSetup() {
 }
 
 function enemiesSpawn(n) {
-
 	for (let i = 0; i < n; i++) {
 		let randIndex = round(random(1, platforms.length - 1));
 		let choosenPlatform = platforms[randIndex];
@@ -186,15 +184,24 @@ function heroMove() {
 	if (keyDown('a')) {
 		hsp.position.x -= hero.speed;
 	}
+
 	if (keyDown('d')) {
 		hsp.position.x += hero.speed;
 	}
-	if (keyWentDown('space')) {
-			if (hsp.velocity.y >= SPRITE_VELOCITY_Y_MAX) {
+
+	if (hero.sprite.overlap(platforms)) {
+			hero.jumpNum = 2;
+	}
+
+	if (hero.jumpNum > 0) {
+			if (keyWentDown('space')) {
 				hsp.velocity.y = HERO_JUMP_FORCE;
 			}
 	}
+
 	if (keyWentUp('space')) {
+				hero.jumpNum--;
+				hero.jumpNum = (hero.jumpNum < 0) ? 0 : hero.jumpNum;
 				hsp.velocity.y = SPRITE_VELOCITY_Y_MAX;
 	}
 }
@@ -284,7 +291,7 @@ function draw() {
 
 	spawnPlatformsRightTime();
 	spawnEnemiesRightTime();
-	// logging(hero.sprite.velocity.y);
+	// logging(hero.jumpNum);
 
 	drawSprites();
 }
