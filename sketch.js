@@ -145,6 +145,12 @@ function localStorageSetup() {
 	}
 }
 
+function guiSetup() {
+	maxHeightScoreEl = document.getElementById('max-height-score');
+	curShotsNumEl = document.getElementById('cur-shots-num');
+	guiEl = document.getElementById('gui');
+}
+
 function setup() {
 	createCanvas(W, H);
 
@@ -160,10 +166,7 @@ function setup() {
 
 	localStorageSetup();
 
-	maxHeightScoreEl = document.getElementById('max-height-score');
-	curShotsNumEl = document.getElementById('cur-shots-num');
-
-	// guiEl = document.getElementById('gui');
+	guiSetup();
 }
 
 function gravity() {
@@ -239,11 +242,34 @@ function heroCollideEnemies() {
 	}
 }
 
+// draw an arrow for a vector at a given base position
+function drawArrow(base, vec, myColor) {
+  push();
+  stroke(myColor);
+  strokeWeight(3);
+  fill(myColor);
+  translate(base.x, base.y);
+  line(0, 0, vec.x, vec.y);
+  rotate(vec.heading());
+  var arrowSize = 7;
+  translate(vec.mag() - arrowSize, 0);
+  triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+  pop();
+}
+
+function heroArrow() {
+	const heroVec = createVector(hero.sprite.position.x, hero.sprite.position.y);
+	const pointToShootVec = createVector(mouseX - hero.sprite.position.x, mouseY - hero.sprite.position.y);
+	drawArrow(heroVec, pointToShootVec, 'black');
+}
 function heroShoot() {
+	const x = hero.sprite.position.x;
+	const y = hero.sprite.position.y;
+	const pointToShootVec = createVector(mouseX - x, mouseY - y);
+
 	if (mouseWentDown(LEFT) && hero.curShotsNum > 0) {
-		const x = hero.sprite.position.x;
-		const y = hero.sprite.position.y;
-		const newShot = new HeroShot(x, y);
+		const pointToShootHead = degrees(pointToShootVec.heading());
+		const newShot = new HeroShot(x, y, pointToShootHead);
 		hero.shots.add(newShot.sprite);
 		hero.curShotsNum--;
 	}
@@ -323,8 +349,8 @@ function draw() {
 
 	heroCollidePlatforms();
 	heroCollideEnemies();
-	heroMove();
 	heroShoot();
+	heroMove();
 	cameraFollowHero();
 
 	enemiesCollidePlatforms();
@@ -337,6 +363,8 @@ function draw() {
 	// logging({maxHeight});
 
 	drawSprites();
+
+	heroArrow();
 
 	updateGUI();
 
