@@ -16,7 +16,7 @@ HERO_SIZE = 50;
 HERO_JUMP_FORCE = -10;
 PLATFORM_MIN_SIZE = 50;
 PLATFORM_MAX_SIZE = 300;
-PLATFORM_NUM = 16;
+PLATFORM_START_NUM = 10;
 PLATFORM_MAX_NUM = 100;
 
 ENEMIES_NUM = 10;
@@ -81,13 +81,13 @@ function drawGrid() {
 	pop();
 }
 
-function createPlatformsRightPlace() {
+function createPlatformsRightPlace(n) {
 	const min_X = (displayFrame.position.x - displayFrame.width / 2) - displayFrame.width * 3;
 	const max_X = (displayFrame.position.x + displayFrame.width / 2) + displayFrame.width * 3;
 	const min_Y = (displayFrame.position.y - displayFrame.height / 2) - displayFrame.height;
 	const max_Y = hero.sprite.position.y - hero.sprite.height / 4;
 
-	for (let i = 0; i < PLATFORM_NUM; i++) {
+	for (let i = 0; i < n; i++) {
 		let x = round(random(min_X, max_X));
 		let y = round(random(min_Y, max_Y));
 
@@ -120,7 +120,7 @@ function platformsSetup() {
 	const basePlatform = new Platform(HALF_W, HALF_H, 200, 20);
 	platforms.add(basePlatform.sprite);
 
-	createPlatformsRightPlace();
+	createPlatformsRightPlace(PLATFORM_START_NUM);
 }
 
 function enemiesSetup() {
@@ -261,7 +261,7 @@ function collideDisplay() {
 
 function createPlatformsRightTime() {
 	if (platforms.length < PLATFORM_MAX_NUM) {
-		createPlatformsRightPlace();
+		createPlatformsRightPlace(PLATFORM_MAX_NUM - platforms.length);
 	}
 }
 
