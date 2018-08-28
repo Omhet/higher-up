@@ -6,7 +6,7 @@ HALF_H = H / 2;
 
 DISPLAY_SPEED = 0;
 
-CAMERA_ZOOM = 0.3;
+CAMERA_ZOOM = 0.1;
 
 // Constants for objects
 G = 0.2;
@@ -81,6 +81,7 @@ function enemiesSetup() {
 		let y = choosenPlatform.position.y - 80;
 		let en = new Enemy(x, y, ENEMY_SIZE);
 		while (en.sprite.overlap(enemies)) {
+			en.sprite.remove();
 			randIndex = round(random(0, platforms.length - 1));
 			choosenPlatform = platforms[randIndex];
 			x = choosenPlatform.position.x;
