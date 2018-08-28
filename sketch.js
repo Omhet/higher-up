@@ -10,6 +10,7 @@ CAMERA_ZOOM = 0.12;
 
 // Constants for objects
 G = 0.2;
+SPRITE_VELOCITY_Y_MAX = 7;
 HERO_SPEED = 5;
 HERO_SIZE = 50;
 HERO_JUMP_FORCE = -10;
@@ -137,8 +138,6 @@ function setup() {
 
 	enemiesSetup();
 
-	// createGrid();
-
 	camera.zoom = CAMERA_ZOOM;
 
 
@@ -147,7 +146,9 @@ function setup() {
 function gravity() {
 	allSprites.forEach(sp => {
 		sp.addSpeed(G, 90);
-		sp.velocity.y = (sp.velocity.y > 7) ? 7 : sp.velocity.y;
+		sp.velocity.y = (sp.velocity.y > SPRITE_VELOCITY_Y_MAX) 
+			? SPRITE_VELOCITY_Y_MAX 
+			: sp.velocity.y;
 	});
 }
 
@@ -160,12 +161,6 @@ function gravity() {
 function heroMove() {
 	const hsp = hero.sprite;
 
-	const Y_CONSTRAIN = 7;
-
-	// Constrain Y velocity
-	let vy = hsp.velocity.y;
-	hsp.velocity.y = (hsp.velocity.y > Y_CONSTRAIN) ? Y_CONSTRAIN : hsp.velocity.y;
-
 	// Key Controls
 	if (keyDown('a')) {
 		hsp.position.x -= hero.speed;
@@ -174,7 +169,7 @@ function heroMove() {
 		hsp.position.x += hero.speed;
 	}
 	if (keyWentDown('space')) {
-			if (vy >= Y_CONSTRAIN) {
+			if (hsp.velocity.y >= SPRITE_VELOCITY_Y_MAX) {
 				hsp.velocity.y = HERO_JUMP_FORCE;
 			}
 	}
