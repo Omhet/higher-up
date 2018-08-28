@@ -375,7 +375,9 @@ function countHeight() {
 
 function updateGUI() {
 	maxHeightScoreEl.textContent = maxHeight;
-	curShotsNumEl.textContent = hero.curShotsNum;
+	// curShotsNumEl.textContent = hero.curShotsNum;
+	const curShotsWidth = map(hero.curShotsNum, 0, HERO_MAX_SHOTS_NUM, 0, 100);
+	curShotsNumEl.style.width = `${curShotsWidth}%`;
 }
 
 function draw() {
