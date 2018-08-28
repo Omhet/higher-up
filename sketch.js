@@ -36,6 +36,9 @@ PLATFORM_MAX_NUM = 100;
 ENEMY_MAX_NUM = 10;
 ENEMY_SIZE = HERO_SIZE;
 
+// Animations
+ANIMATION_ENEMY_BASIC = {};
+
 // Shots
 SHOT_SIZE = 20;
 SHOT_HERO_MAX_SPEED = 17;
@@ -59,6 +62,8 @@ const hero = {};
 
 function preload() {
 	HERO_IMG = loadImage('images/hero_1.png');
+	ANIMATION_ENEMY_BASIC = loadAnimation('animations/enemy_basic_1/output-0.png', 
+		'animations/enemy_basic_1/output-47.png');
 }
 
 // Setup Functions
