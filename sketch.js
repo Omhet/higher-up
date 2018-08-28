@@ -134,7 +134,7 @@ function enemiesSetup() {
 		let en = new Enemy(x, y, ENEMY_SIZE);
 		while (en.sprite.overlap(enemies)) {
 			en.sprite.remove();
-			randIndex = round(random(0, platforms.length - 1));
+			randIndex = round(random(1, platforms.length - 1));
 			choosenPlatform = platforms[randIndex];
 			x = choosenPlatform.position.x;
 			y = choosenPlatform.position.y - ENEMY_SIZE;
