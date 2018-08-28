@@ -150,6 +150,18 @@ function heroSetup() {
 	hero.speed = HERO_SPEED;
 }
 
+function localStorageSetup() {
+	let localHero = {};
+	
+	if (!localStorage['hero']) {
+		localHero.maxHeight = 0;
+		const serialLocalHero = JSON.stringify(localHero);
+		localStorage.setItem('hero', serialLocalHero);
+	} else {
+		localHero = JSON.parse(localStorage.getItem('hero'));
+		maxHeight = localHero.maxHeight;
+	}
+}
 
 function setup() {
 	createCanvas(W, H);
@@ -163,6 +175,8 @@ function setup() {
 	enemies = new Group();
 
 	camera.zoom = CAMERA_ZOOM;
+
+	localStorageSetup();
 }
 
 function gravity() {
@@ -304,7 +318,18 @@ function draw() {
 
 	countHeight();
 
-	// logging({height, maxHeight});
+	logging({maxHeight});
 
 	drawSprites();
 }
+
+
+function localStorageSetdown() {
+	localHero = JSON.parse(localStorage.getItem('hero'));
+	localHero.maxHeight = maxHeight;
+	const serialLocalHero = JSON.stringify(localHero);
+	localStorage.setItem('hero', serialLocalHero);
+}
+
+// Window Events
+window.onbeforeunload = localStorageSetdown;
