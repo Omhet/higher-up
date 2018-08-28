@@ -36,6 +36,7 @@ ENEMY_SIZE = HERO_SIZE;
 
 // Shots
 SHOT_SIZE = 20;
+SHOT_HERO_MAX_SPEED = 17;
 // SHOT_HERO_COLOR = 'rgb('
 
 // Globals
@@ -58,7 +59,7 @@ const hero = {};
 // Setup Functions
 function setupDisplayFrame() {
 	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, H / CAMERA_ZOOM);
-	displayFrame.shapeColor = color(220, 220, 220);
+	displayFrame.shapeColor = color('rgba(220, 220, 220, 0)');
 }
 
 function platformsSpawn(n) {
@@ -260,24 +261,36 @@ function drawArrow(base, vec, myColor) {
 function heroArrow() {
 	const heroVec = createVector(hero.sprite.position.x, hero.sprite.position.y);
 	const pointToShootVec = createVector(mouseX - HALF_W, mouseY - HALF_H);
-	// logging(pointToShootVec);
-	// pointToShootVec.normalize();
+	pointToShootVec.normalize();
 	drawArrow(heroVec, pointToShootVec, 'black');
 }
+
+let magOfShootVec = 0;
 function heroShoot() {
+	const heroVec = createVector(hero.sprite.position.x, hero.sprite.position.y);
 	const x = hero.sprite.position.x;
 	const y = hero.sprite.position.y;
 	const pointToShootVec = createVector(mouseX - HALF_W, mouseY - HALF_H);
-	// pointToShootVec.normalize();
+	pointToShootVec.setMag(magOfShootVec);
 
-	if (mouseWentDown(LEFT) && hero.curShotsNum > 0) {
+	if (mouseDown(LEFT) && hero.curShotsNum > 0) {
+			magOfShootVec += 10;
+			magOfShootVec = (magOfShootVec > SHOT_HERO_MAX_SPEED * 10) 
+				? SHOT_HERO_MAX_SPEED * 10
+				: magOfShootVec;
+	}
+
+	if (mouseWentUp(LEFT) && hero.curShotsNum > 0) {
 		const rotation = degrees(pointToShootVec.heading());
-		const speed = round(pointToShootVec.mag() / 10);
-		console.log(speed);
+		const speed = round(magOfShootVec / 10);
 		const newShot = new HeroShot(x, y, speed, rotation);
 		hero.shots.add(newShot.sprite);
 		hero.curShotsNum--;
+		magOfShootVec = 0;
 	}
+
+	drawArrow(heroVec, pointToShootVec, 'black');
+
 }
 
 
@@ -369,7 +382,7 @@ function draw() {
 
 	drawSprites();
 
-	heroArrow();
+	// heroArrow();
 
 	updateGUI();
 
