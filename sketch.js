@@ -10,7 +10,7 @@ H = 600;
 HALF_W = W / 2;
 HALF_H = H / 2;
 
-DISPLAY_SPEED = -0.9;
+DISPLAY_SPEED = 0;
 
 CAMERA_ZOOM = 0.5;
 
@@ -121,7 +121,7 @@ function enemiesSpawn(n) {
 }
 
 function heroSetup() {
-	hero.MAX_SHOTS_NUM = 10;
+	hero.MAX_SHOTS_NUM = 100;
 	hero.curShotsNum = hero.MAX_SHOTS_NUM;
 	hero.shots = new Group();
 
@@ -259,17 +259,22 @@ function drawArrow(base, vec, myColor) {
 
 function heroArrow() {
 	const heroVec = createVector(hero.sprite.position.x, hero.sprite.position.y);
-	const pointToShootVec = createVector(mouseX - hero.sprite.position.x, mouseY - hero.sprite.position.y);
+	const pointToShootVec = createVector(mouseX - HALF_W, mouseY - HALF_H);
+	// logging(pointToShootVec);
+	// pointToShootVec.normalize();
 	drawArrow(heroVec, pointToShootVec, 'black');
 }
 function heroShoot() {
 	const x = hero.sprite.position.x;
 	const y = hero.sprite.position.y;
-	const pointToShootVec = createVector(mouseX - x, mouseY - y);
+	const pointToShootVec = createVector(mouseX - HALF_W, mouseY - HALF_H);
+	// pointToShootVec.normalize();
 
 	if (mouseWentDown(LEFT) && hero.curShotsNum > 0) {
-		const pointToShootHead = degrees(pointToShootVec.heading());
-		const newShot = new HeroShot(x, y, pointToShootHead);
+		const rotation = degrees(pointToShootVec.heading());
+		const speed = round(pointToShootVec.mag() / 10);
+		console.log(speed);
+		const newShot = new HeroShot(x, y, speed, rotation);
 		hero.shots.add(newShot.sprite);
 		hero.curShotsNum--;
 	}
