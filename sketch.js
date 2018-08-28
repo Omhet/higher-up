@@ -300,6 +300,14 @@ function countHeight() {
 	maxHeight = (height > maxHeight) ? height : maxHeight;
 }
 
+function drawMaxHeightText() {
+	push();
+	const fontSize = 32;
+	textSize(fontSize);
+	text(maxHeight, HALF_W, fontSize);
+	pop();
+}
+
 function draw() {
 	background(210, 255, 255);
 
@@ -318,9 +326,12 @@ function draw() {
 
 	countHeight();
 
-	logging({maxHeight});
+	// logging({maxHeight});
 
 	drawSprites();
+
+	camera.off();
+	drawMaxHeightText();
 }
 
 
