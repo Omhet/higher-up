@@ -9,7 +9,7 @@ DISPLAY_SPEED = 0;
 CAMERA_ZOOM = 0.17;
 
 // Constants for objects
-G = 0;
+G = 0.2;
 SPRITE_VELOCITY_Y_MAX = 7;
 HERO_SPEED = 5;
 HERO_SIZE = 50;
@@ -120,7 +120,7 @@ function platformsSetup() {
 	const basePlatform = new Platform(HALF_W, HALF_H, 200, 20);
 	platforms.add(basePlatform.sprite);
 
-	createPlatformsRightPlace(PLATFORM_NUM);
+	createPlatformsRightPlace();
 }
 
 function enemiesSetup() {
@@ -199,6 +199,9 @@ function heroMove() {
 			if (hsp.velocity.y >= SPRITE_VELOCITY_Y_MAX) {
 				hsp.velocity.y = HERO_JUMP_FORCE;
 			}
+	}
+	if (keyWentUp('space')) {
+				hsp.velocity.y = SPRITE_VELOCITY_Y_MAX;
 	}
 }
 
