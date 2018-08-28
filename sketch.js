@@ -82,7 +82,7 @@ function drawGrid() {
 	pop();
 }
 
-function createPlatformsRightPlace(n) {
+function platformsSpawn(n) {
 	const min_X = (displayFrame.position.x - displayFrame.width / 2) - displayFrame.width * 3;
 	const max_X = (displayFrame.position.x + displayFrame.width / 2) + displayFrame.width * 3;
 	const min_Y = (displayFrame.position.y - displayFrame.height / 2) - displayFrame.height;
@@ -120,8 +120,6 @@ function platformsSetup() {
 
 	const basePlatform = new Platform(HALF_W, HALF_H, 200, 20);
 	platforms.add(basePlatform.sprite);
-
-	// createPlatformsRightPlace(PLATFORM_START_NUM);
 }
 
 function enemiesSpawn(n) {
@@ -262,13 +260,13 @@ function collideDisplay() {
 	});
 }
 
-function createPlatformsRightTime() {
+function spawnPlatformsRightTime() {
 	if (platforms.length < PLATFORM_MAX_NUM) {
-		createPlatformsRightPlace(PLATFORM_MAX_NUM - platforms.length);
+		platformsSpawn(PLATFORM_MAX_NUM - platforms.length);
 	}
 }
 
-function createEnemiesRightTime() {
+function spawnEnemiesRightTime() {
 	if (enemies.length < ENEMY_MAX_NUM) {
 		enemiesSpawn(ENEMY_MAX_NUM - enemies.length);
 	}
@@ -290,9 +288,9 @@ function draw() {
 	heroCollideEnemies();
 	heroMove();
 	cameraFollowHero();
-
-	createPlatformsRightTime();
-	createEnemiesRightTime();
+	
+	spawnPlatformsRightTime();
+	spawnEnemiesRightTime();
 	// logging(hero.sprite.velocity.y);
 
 	drawSprites();
