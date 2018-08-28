@@ -30,6 +30,9 @@ let enemies = {};
 
 const grid = [];
 
+let height = 0;
+let maxHeight = 0;
+
 // Create Hero
 const hero = {};
 
@@ -276,6 +279,13 @@ function enemiesCollidePlatforms() {
 	enemies.collide(platforms);
 }
 
+function countHeight() {
+	height = (hero.sprite.position.y > 0) 
+		? 0
+		: round(hero.sprite.position.y / -100);
+	maxHeight = (height > maxHeight) ? height : maxHeight;
+}
+
 function draw() {
 	background(210, 255, 255);
 
@@ -291,7 +301,10 @@ function draw() {
 
 	spawnPlatformsRightTime();
 	spawnEnemiesRightTime();
-	// logging(hero.jumpNum);
+
+	countHeight();
+
+	// logging({height, maxHeight});
 
 	drawSprites();
 }
