@@ -39,7 +39,6 @@ ENEMY_SIZE = HERO_SIZE;
 // Shots
 SHOT_SIZE = 20;
 SHOT_HERO_MAX_SPEED = 17;
-// SHOT_HERO_COLOR = 'rgb('
 
 // Globals
 let displayFrame = {};
@@ -60,7 +59,6 @@ const hero = {};
 
 function preload() {
 	HERO_IMG = loadImage('images/hero_1.png');
-
 }
 
 // Setup Functions
@@ -128,6 +126,10 @@ function enemiesSpawn(n) {
 	}
 }
 
+function enemiesSetup() {
+	enemies = new Group();
+}
+
 function heroSetup() {
 	hero.curShotsNum = HERO_MAX_SHOTS_NUM;
 	hero.shots = new Group();
@@ -135,7 +137,7 @@ function heroSetup() {
 	hero.speed = HERO_SPEED;
 
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
-	// hero.sprite.shapeColor = color(HERO_COLOR);
+
 	HERO_IMG.resize(HERO_SIZE, HERO_SIZE);
 	hero.sprite.addImage(HERO_IMG);
 
@@ -170,7 +172,7 @@ function setup() {
 
 	platformsSetup();
 
-	enemies = new Group();
+	enemiesSetup();
 
 	camera.zoom = CAMERA_ZOOM;
 
@@ -417,8 +419,6 @@ function draw() {
 	// logging({maxHeight});
 
 	drawSprites();
-
-	// heroArrow();
 
 	updateGUI();
 
