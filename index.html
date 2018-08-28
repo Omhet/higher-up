@@ -23,9 +23,13 @@
         min-height: 95vh;
        }
 
+       canvas {
+        border: 1px solid black;
+        border-top: none;
+       }
+
        #gui {
         border: 1px solid black;
-        /*border-bottom: 1px dashed black;*/
         border-radius: 5px 5px 0 0;
         font-size: 1.5em;
         display: flex;
@@ -35,10 +39,13 @@
        #gui > * {
         padding: 0.3em 1em;
         border-right: 1px solid black;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
        }
 
        #cur-shots-num {
-        background-color: #235;
+        background-color: #78a;
         height: 1em; 
         border: 1px solid black;
         border-radius: 2px;
@@ -53,7 +60,7 @@
         <div id="cur-shots-num"></div>
       </div>
       <div class="max-height-score-wrapper">
-        <span>Макс высота: </span> 
+        <span>Макс высота</span> 
         <span id="max-height-score"></span>
       </div>
     </div>
