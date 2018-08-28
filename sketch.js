@@ -69,7 +69,7 @@ function preload() {
 // Setup Functions
 function setupDisplayFrame() {
 	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, H / CAMERA_ZOOM);
-	displayFrame.shapeColor = color('rgba(220, 220, 220, 0.5)');
+	displayFrame.shapeColor = color('rgba(210, 255, 255, 0.5)');
 }
 
 function platformsSpawn(n) {
@@ -397,7 +397,7 @@ function updateGUI() {
 }
 
 function draw() {
-	background(210, 255, 255);
+	background('rgba(0, 0, 0, 0.3)');
 
 	moveDisplay();
 	collideDisplay();
