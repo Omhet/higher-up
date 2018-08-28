@@ -4,9 +4,9 @@ H = 600;
 HALF_W = W / 2;
 HALF_H = H / 2;
 
-DISPLAY_SPEED = 0;
+DISPLAY_SPEED = -0.9;
 
-CAMERA_ZOOM = 0.17;
+CAMERA_ZOOM = 0.5;
 
 // Constants for objects
 G = 0.2;
@@ -36,8 +36,8 @@ const hero = {};
 
 // Setup Functions
 function setupDisplayFrame() {
-	displayFrame = createSprite(HALF_W, HALF_H, W, 2 * H);
-	displayFrame.shapeColor = color(240, 230, 140);
+	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, H / CAMERA_ZOOM);
+	displayFrame.shapeColor = color(220, 220, 220);
 }
 
 function createGrid() {
