@@ -345,6 +345,22 @@ function enemiesCollidePlatforms() {
 	enemies.collide(platforms);
 }
 
+function shotsCollideEnemies() {
+	enemies.forEach(e => {
+		if (e.overlap(hero.shots)) {
+			e.remove();
+		}
+	});
+}
+
+function shotsCollideAll() {
+	hero.shots.forEach(s => {
+		if (s.overlap(platforms) || s.overlap(enemies) || !s.overlap(displayFrame)) {
+			s.remove();
+		}
+	});
+}
+
 function countHeight() {
 	height = (hero.sprite.position.y > 0) 
 		? 0
@@ -372,6 +388,9 @@ function draw() {
 	cameraFollowHero();
 
 	enemiesCollidePlatforms();
+
+	shotsCollideEnemies();
+	shotsCollideAll()
 
 	spawnPlatformsRightTime();
 	spawnEnemiesRightTime();
