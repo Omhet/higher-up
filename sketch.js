@@ -1,3 +1,8 @@
+// GUI
+let maxHeightScoreEl;
+let guiEl;
+
+
 // Constants for game
 W = 800;
 H = 600;
@@ -177,6 +182,9 @@ function setup() {
 	camera.zoom = CAMERA_ZOOM;
 
 	localStorageSetup();
+
+	maxHeightScoreEl = document.getElementById('max-height-score');
+	guiEl = document.getElementById('gui')
 }
 
 function gravity() {
@@ -301,11 +309,7 @@ function countHeight() {
 }
 
 function drawMaxHeightText() {
-	push();
-	const fontSize = 32;
-	textSize(fontSize);
-	text(maxHeight, HALF_W, fontSize);
-	pop();
+	maxHeightScoreEl.textContent = maxHeight;
 }
 
 function draw() {
@@ -330,7 +334,7 @@ function draw() {
 
 	drawSprites();
 
-	camera.off();
+	// camera.off();
 	drawMaxHeightText();
 }
 

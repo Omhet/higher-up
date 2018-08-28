@@ -8,14 +8,38 @@
      <script src="./Objects/Enemy.js" type="text/javascript"></script>
      <script src="sketch.js" type="text/javascript"></script>
      <style type="text/css">
+
        body {
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
         min-height: 95vh;
        }
+
+       #gui {
+        border: 1px solid black;
+        /*border-bottom: 1px dashed black;*/
+        border-radius: 5px 5px 0 0;
+        font-size: 1.5em;
+        display: flex;
+        width: 800px;
+       }
+
+       .max-height-score-wrapper {
+        padding: 0.3em 1em;
+        border-right: 1px solid black;
+       }
+
      </style>
    </head>
    <body>
+    <div id="gui">
+      <div class="max-height-score-wrapper">
+        <span>Макс высота: </span> 
+        <span id="max-height-score"></span>
+      </div>
+    </div>
+    
    </body>
 </html>
