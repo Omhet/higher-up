@@ -4,9 +4,15 @@
      <title>Higher Up</title>
      <script src="./lib/p5.min.js" type="text/javascript"></script>
      <script src="./lib/p5.play.js" type="text/javascript"></script>  
+
      <script src="./Objects/Platform.js" type="text/javascript"></script>
      <script src="./Objects/Enemy.js" type="text/javascript"></script>
+
+     <script src="./Objects/Shots/Shot.js" type="text/javascript"></script>
+     <script src="./Objects/Shots/HeroShot.js" type="text/javascript"></script>
+
      <script src="sketch.js" type="text/javascript"></script>
+
      <style type="text/css">
 
        body {
@@ -26,7 +32,7 @@
         width: 800px;
        }
 
-       .max-height-score-wrapper {
+       #gui > * {
         padding: 0.3em 1em;
         border-right: 1px solid black;
        }
@@ -35,6 +41,10 @@
    </head>
    <body>
     <div id="gui">
+      <div class="cur-shots-num-wrapper">
+        <span>Заряд: </span> 
+        <span id="cur-shots-num"></span>
+      </div>
       <div class="max-height-score-wrapper">
         <span>Макс высота: </span> 
         <span id="max-height-score"></span>

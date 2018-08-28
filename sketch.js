@@ -1,5 +1,6 @@
 // GUI
 let maxHeightScoreEl;
+let curShotsNumEl;
 let guiEl;
 
 
@@ -16,16 +17,26 @@ CAMERA_ZOOM = 0.5;
 // Constants for objects
 G = 0.2;
 SPRITE_VELOCITY_Y_MAX = 7;
+
+// Hero
 HERO_SPEED = 5;
 HERO_SIZE = 50;
 HERO_JUMP_FORCE = -10;
+HERO_COLOR = 'rgb(222, 125, 20)';
+
+// Platforms
 PLATFORM_MIN_SIZE = 50;
 PLATFORM_MAX_SIZE = 300;
 PLATFORM_START_NUM = 10;
 PLATFORM_MAX_NUM = 100;
 
+// Enemies
 ENEMY_MAX_NUM = 10;
 ENEMY_SIZE = HERO_SIZE;
+
+// Shots
+SHOT_SIZE = 20;
+// SHOT_HERO_COLOR = 'rgb('
 
 // Globals
 let displayFrame = {};
@@ -48,47 +59,6 @@ const hero = {};
 function setupDisplayFrame() {
 	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, H / CAMERA_ZOOM);
 	displayFrame.shapeColor = color(220, 220, 220);
-}
-
-function createGrid() {
-	const min_X = (displayFrame.position.x - displayFrame.width / 2) - displayFrame.width * 3;
-	const max_X = (displayFrame.position.x + displayFrame.width / 2) + displayFrame.width * 3;
-	const min_Y = (displayFrame.position.y - displayFrame.height / 2) - displayFrame.height;
-	const max_Y = hero.sprite.position.y - hero.sprite.height / 4;
-
-	const w = max_X - min_X;
-	const h = max_Y - min_Y;
-	for (let i = min_X; i < max_X; i += HERO_SIZE) {
-		for (let j = min_Y; j < max_Y; j += HERO_SIZE) {
-			const cell = {
-				x: i,
-				y: j,
-				occupied: false
-			};
-			grid.push(cell);
-		}
-	}
-}
-
-function drawGrid() {
-	push();
-	noFill();
-	stroke(51);
-
-	const min_X = (displayFrame.position.x - displayFrame.width / 2) - displayFrame.width * 3;
-	const max_X = (displayFrame.position.x + displayFrame.width / 2) + displayFrame.width * 3;
-	const min_Y = (displayFrame.position.y - displayFrame.height / 2) - displayFrame.height;
-	const max_Y = hero.sprite.position.y - hero.sprite.height / 4;
-
-	const w = max_X - min_X;
-	const h = max_Y - min_Y;
-	for (let i = min_X; i < max_X; i += HERO_SIZE) {
-		for (let j = min_Y; j < max_Y; j += HERO_SIZE) {
-			rect(i, j, HERO_SIZE, HERO_SIZE);
-		}
-	}
-
-	pop();
 }
 
 function platformsSpawn(n) {
@@ -151,11 +121,15 @@ function enemiesSpawn(n) {
 }
 
 function heroSetup() {
-	hero.static = false;
-	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
-	hero.sprite.shapeColor = color(222, 125, 20);
-	hero.sprite.isHero = true;
+	hero.MAX_SHOTS_NUM = 10;
+	hero.curShotsNum = hero.MAX_SHOTS_NUM;
+	hero.shots = new Group();
+
 	hero.speed = HERO_SPEED;
+
+	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
+	hero.sprite.shapeColor = color(HERO_COLOR);
+	hero.sprite.isHero = true;
 }
 
 function localStorageSetup() {
@@ -187,6 +161,8 @@ function setup() {
 	localStorageSetup();
 
 	maxHeightScoreEl = document.getElementById('max-height-score');
+	curShotsNumEl = document.getElementById('cur-shots-num');
+
 	// guiEl = document.getElementById('gui');
 }
 
@@ -263,7 +239,23 @@ function heroCollideEnemies() {
 	}
 }
 
+function heroShoot() {
+	if (mouseWentDown(LEFT) && hero.curShotsNum > 0) {
+		const x = hero.sprite.position.x;
+		const y = hero.sprite.position.y;
+		const newShot = new HeroShot(x, y);
+		hero.shots.add(newShot.sprite);
+		hero.curShotsNum--;
+	}
+}
 
+
+
+
+/*
+ *Other functions
+*
+*/
 function logging(data) {
 	if (frameCount % 20 === 0) {
 		console.log(data);
@@ -316,8 +308,9 @@ function countHeight() {
 	maxHeight = (height > maxHeight) ? height : maxHeight;
 }
 
-function drawMaxHeightText() {
+function updateGUI() {
 	maxHeightScoreEl.textContent = maxHeight;
+	curShotsNumEl.textContent = hero.curShotsNum;
 }
 
 function draw() {
@@ -327,11 +320,14 @@ function draw() {
 	collideDisplay();
 
 	gravity();
+
 	heroCollidePlatforms();
-	enemiesCollidePlatforms();
 	heroCollideEnemies();
 	heroMove();
+	heroShoot();
 	cameraFollowHero();
+
+	enemiesCollidePlatforms();
 
 	spawnPlatformsRightTime();
 	spawnEnemiesRightTime();
@@ -342,8 +338,7 @@ function draw() {
 
 	drawSprites();
 
-	// camera.off();
-	drawMaxHeightText();
+	updateGUI();
 
 }
 
