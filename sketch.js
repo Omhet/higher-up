@@ -130,7 +130,7 @@ function enemiesSpawn(n) {
 		let x = choosenPlatform.position.x;
 		let y = choosenPlatform.position.y - ENEMY_SIZE;
 		let en = new Enemy(x, y, ENEMY_SIZE);
-		while (en.sprite.overlap(enemies)) {
+		while (en.sprite.overlap(enemies) || en.sprite.overlap(displayFrame)) {
 			en.sprite.remove();
 			randIndex = round(random(1, platforms.length - 1));
 			choosenPlatform = platforms[randIndex];
@@ -161,14 +161,7 @@ function setup() {
 
 	enemies = new Group();
 
-
-	// enemiesSetup();
-
-	// createGrid();
-
 	camera.zoom = CAMERA_ZOOM;
-
-
 }
 
 function gravity() {
@@ -288,7 +281,7 @@ function draw() {
 	heroCollideEnemies();
 	heroMove();
 	cameraFollowHero();
-	
+
 	spawnPlatformsRightTime();
 	spawnEnemiesRightTime();
 	// logging(hero.sprite.velocity.y);
