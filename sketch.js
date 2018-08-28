@@ -6,7 +6,7 @@ HALF_H = H / 2;
 
 DISPLAY_SPEED = 0;
 
-CAMERA_ZOOM = 0.1;
+CAMERA_ZOOM = 0.12;
 
 // Constants for objects
 G = 0.2;
@@ -16,7 +16,7 @@ HERO_JUMP_FORCE = -10;
 PLATFORM_MIN_SIZE = 50;
 PLATFORM_MAX_SIZE = 300;
 PLATFORM_NUM = 16;
-PLATFORM_MAX_NUM = 100;
+PLATFORM_MAX_NUM = 50;
 
 ENEMIES_NUM = 10;
 ENEMY_SIZE = HERO_SIZE;
@@ -37,15 +37,39 @@ function setupDisplayFrame() {
 	displayFrame.shapeColor = color(240, 230, 140);
 }
 
+function createGrid() {
+	push();
+	noFill();
+	stroke(51);
+
+	const min_X = (displayFrame.position.x - displayFrame.width / 2) - displayFrame.width * 3;
+	const max_X = (displayFrame.position.x + displayFrame.width / 2) + displayFrame.width * 3;
+	const min_Y = (displayFrame.position.y - displayFrame.height / 2) - displayFrame.height;
+	const max_Y = hero.sprite.position.y - hero.sprite.height / 4;
+
+	const w = max_X - min_X;
+	const h = max_Y - min_Y;
+	for (let i = min_X; i < max_X; i += HERO_SIZE) {
+		for (let j = min_Y; j < max_Y; j += HERO_SIZE) {
+			rect(i, j, HERO_SIZE, HERO_SIZE);
+		}
+	}
+
+	pop();
+}
+
 function createPlatformsRightPlace() {
 	const min_X = (displayFrame.position.x - displayFrame.width / 2) - displayFrame.width * 3;
 	const max_X = (displayFrame.position.x + displayFrame.width / 2) + displayFrame.width * 3;
-	const min_Y = (displayFrame.position.y - displayFrame.height / 2) - displayFrame.height * 2;
+	const min_Y = (displayFrame.position.y - displayFrame.height / 2) - displayFrame.height;
 	const max_Y = hero.sprite.position.y - hero.sprite.height / 4;
 
 	for (let i = 0; i < PLATFORM_NUM; i++) {
 		let x = random(min_X, max_X);
 		let y = random(min_Y, max_Y);
+		x -= x % HERO_SIZE;
+		y -= y % HERO_SIZE;
+
 		const w = random(PLATFORM_MIN_SIZE, PLATFORM_MAX_SIZE);
 		const h = 20;
 
@@ -53,8 +77,10 @@ function createPlatformsRightPlace() {
 
 		while (newPlatform.sprite.overlap(platforms)) {
 			newPlatform.sprite.remove();
-			x = random(0, width);
-			y = random(0, height);
+			x = random(min_X, max_X);
+			y = random(min_Y, max_Y);
+			x -= x % HERO_SIZE;
+			y -= y % HERO_SIZE;
 			newPlatform = new Platform(x, y, w, h);
 		}
 
@@ -111,6 +137,8 @@ function setup() {
 
 	enemiesSetup();
 
+	// createGrid();
+
 	camera.zoom = CAMERA_ZOOM;
 
 
@@ -122,6 +150,12 @@ function gravity() {
 		sp.velocity.y = (sp.velocity.y > 7) ? 7 : sp.velocity.y;
 	});
 }
+
+
+/*
+ *Hero functions
+*
+*/
 
 function heroMove() {
 	const hsp = hero.sprite;
@@ -155,12 +189,25 @@ function heroCollidePlatforms() {
 }
 
 function cameraFollowHero() {
-	camera.position.x = hero.sprite.position.x;
-	camera.position.y = hero.sprite.position.y;
-
+	if (!hero.dead) {
+		camera.position.x = hero.sprite.position.x;
+		camera.position.y = hero.sprite.position.y;
+	}
 	// camera.position.x = enemies[0].position.x;
 	// camera.position.y = enemies[0].position.y;
 }
+
+function heroDeath() {
+	hero.sprite.remove();
+	hero.dead = true;
+}
+
+function heroCollideEnemies() {
+	if (hero.sprite.overlap(enemies)) {
+		heroDeath();
+	}
+}
+
 
 function logging(data) {
 	if (frameCount % 20 === 0) {
@@ -197,11 +244,7 @@ function enemiesCollidePlatforms() {
 	enemies.collide(platforms);
 }
 
-function heroCollideEnemies() {
-	if (hero.sprite.overlap(enemies)) {
-		hero.sprite.remove();
-	}
-}
+
 
 
 function draw() {
@@ -219,6 +262,8 @@ function draw() {
 
 	createPlatformsRightTime();
 	// logging(hero.sprite.velocity.y);
+
+	createGrid();
 
 	drawSprites();
 }
