@@ -14,6 +14,8 @@ DISPLAY_SPEED = -0.9;
 
 CAMERA_ZOOM = 0.5;
 
+DEBUG_MODE = true;
+
 // Constants for objects
 G = 0.2;
 SPRITE_VELOCITY_Y_MAX = 7;
@@ -24,7 +26,6 @@ HERO_SIZE = 50;
 HERO_JUMP_FORCE = -10;
 HERO_COLOR = 'rgb(222, 125, 20)';
 HERO_MAX_SHOTS_NUM = 5;
-HERO_IMG = {};
 
 // Platforms
 PLATFORM_MIN_SIZE = 50;
@@ -35,6 +36,10 @@ PLATFORM_MAX_NUM = 100;
 // Enemies
 ENEMY_MAX_NUM = 10;
 ENEMY_SIZE = HERO_SIZE;
+
+// Images
+HERO_IMG = {};
+DISPLAY_FRAME_IMAGE = {};
 
 // Animations
 ANIMATION_ENEMY_BASIC = {};
@@ -62,6 +67,7 @@ const hero = {};
 
 function preload() {
 	HERO_IMG = loadImage('images/hero_1.png');
+	DISPLAY_FRAME_IMAGE = loadImage('images/waves.png');
 	ANIMATION_ENEMY_BASIC = loadAnimation('animations/enemy_basic_1/output-0.png', 
 		'animations/enemy_basic_1/output-47.png');
 }
@@ -69,6 +75,8 @@ function preload() {
 // Setup Functions
 function setupDisplayFrame() {
 	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, H / CAMERA_ZOOM);
+	DISPLAY_FRAME_IMAGE.resize(displayFrame.width, displayFrame.height);
+	// displayFrame.addImage(DISPLAY_FRAME_IMAGE);
 	displayFrame.shapeColor = color('rgba(210, 255, 255, 0.9)');
 }
 
@@ -142,6 +150,7 @@ function heroSetup() {
 	hero.speed = HERO_SPEED;
 
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
+	hero.sprite.scale = 1.3;
 
 	HERO_IMG.resize(HERO_SIZE, HERO_SIZE);
 	hero.sprite.addImage(HERO_IMG);
@@ -169,6 +178,12 @@ function guiSetup() {
 }
 
 function setup() {
+
+	if (DEBUG_MODE) {
+		G = 0;
+		DISPLAY_SPEED = 0;
+	}
+
 	createCanvas(W, H);
 
 	setupDisplayFrame();
@@ -390,12 +405,19 @@ function updateGUI() {
 }
 
 function draw() {
-	background('rgba(20, 20, 30, 0.3)');
+	background('rgba(20, 20, 40, 1)');
+
+	if (!DEBUG_MODE) {
+
+	} else {
+
+	}
+
+	gravity();
 
 	moveDisplay();
 	collideDisplay();
 
-	gravity();
 
 	heroCollidePlatforms();
 	heroCollideEnemies();
