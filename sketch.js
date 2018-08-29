@@ -53,8 +53,7 @@ let displayFrame = {};
 
 let platforms = {};
 let enemies = {};
-
-const grid = [];
+let shots = {};
 
 let height = 0;
 let maxHeight = 0;
@@ -144,6 +143,10 @@ function enemiesSetup() {
 	enemies = new Group();
 }
 
+function shotsSetup() {
+	shots = new Group();
+}
+
 function heroSetup() {
 	hero.curShotsNum = HERO_MAX_SHOTS_NUM;
 	hero.shots = new Group();
@@ -180,26 +183,24 @@ function guiSetup() {
 }
 
 function setup() {
+	createCanvas(W, H);
 
+	// Debug Setup
 	if (DEBUG_MODE) {
 		G = 0;
 		DISPLAY_SPEED = 0;
 	}
 
-	createCanvas(W, H);
-
+	// Objects Setup
 	setupDisplayFrame();
-
 	heroSetup();
-
 	platformsSetup();
-
 	enemiesSetup();
+	shotsSetup();
 
+	// Tech Setup
 	camera.zoom = CAMERA_ZOOM;
-
 	localStorageSetup();
-
 	guiSetup();
 }
 
@@ -283,8 +284,6 @@ function cameraFollowHero() {
 		camera.position.x = hero.sprite.position.x;
 		camera.position.y = hero.sprite.position.y;
 	}
-	// camera.position.x = enemies[0].position.x;
-	// camera.position.y = enemies[0].position.y;
 }
 
 function heroDeath() {
@@ -350,17 +349,18 @@ function restoreHeroShots() {
 	}
 }
 
+/*
+*
+*
+*/
 
 
 /*
  *Other functions
 *
 */
-function logging(data) {
-	if (frameCount % 20 === 0) {
-		console.log(data);
-	}
-}
+
+
 
 function moveDisplay() {
 	const ht = hero.sprite.position.y + hero.sprite.height / 2;
@@ -391,15 +391,10 @@ function spawnPlatformsRightTime() {
 	}
 }
 
-
-
-
-
-
-
-
-
-
+/*
+* Enemies
+*
+*/
 
 function spawnEnemiesRightTime() {
 	if (enemies.length < ENEMY_MAX_NUM) {
@@ -432,15 +427,14 @@ function enemiesShoot(e) {
 
 function enemiesLogic() {
 	enemies.forEach(e => {
-		// shotsCollideEnemies(e);
 		enemiesShoot(e);
 	});
 }
 
-
-
-
-
+/*
+*
+*
+*/
 
 /*
 * Shots
@@ -480,9 +474,16 @@ function shotsLogic() {
 *
 */
 
+/*
+* Tech Stuff
+*
+*/
 
-
-
+function logging(data) {
+	if (frameCount % 20 === 0) {
+		console.log(data);
+	}
+}
 
 function countHeight() {
 	height = (hero.sprite.position.y > 0) 
@@ -507,6 +508,11 @@ function debugModeUpdate() {
 	}
 }
 
+/*
+*
+*
+*/
+
 function draw() {
 	background('rgba(20, 20, 40, 1)');
 
@@ -526,7 +532,6 @@ function draw() {
 	enemiesCollidePlatforms();
 	enemiesLogic();
 
-	// shotsCollideAll()
 	shotsLogic();
 
 	spawnPlatformsRightTime();
