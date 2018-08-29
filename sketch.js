@@ -14,7 +14,7 @@ DISPLAY_SPEED = -0.9;
 
 CAMERA_ZOOM = 0.5;
 
-DEBUG_MODE = false;
+DEBUG_MODE = true;
 
 // Constants for objects
 G = 0.2;
@@ -423,8 +423,11 @@ function enemiesShoot(e) {
 
 			const pointToShootVec = createVector(hero.sprite.position.x - x, hero.sprite.position.y - y);
 
+			const d = round(dist(x, y, hero.sprite.position.x, hero.sprite.position.y) / 100);
+			// console.log(d);
+
 			const rotation = degrees(pointToShootVec.heading());
-			const speed = 10;
+			const speed = round(random(d, d + 3));
 
 			const newShot = new Shot(x, y, speed, rotation, 'rgb(0, 0, 0)');
 			newShot.sprite.enemyShot = true;
