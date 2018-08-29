@@ -5,8 +5,10 @@ let guiEl;
 
 
 // Constants for game
-W = window.innerWidth;
-H = window.innerHeight;
+// W = window.innerWidth;
+// H = window.innerHeight;
+W = 800;
+H = 600;
 HALF_W = W / 2;
 HALF_H = H / 2;
 
@@ -29,10 +31,10 @@ HERO_MAX_SHOTS_NUM = 5;
 
 // Platforms
 PLATFORM_START_NUM = W / 80;
-PLATFORM_MAX_NUM = W / 8;
+PLATFORM_MAX_NUM = W / 10;
 
 // Enemies
-ENEMY_MAX_NUM = 10;
+ENEMY_MAX_NUM = PLATFORM_MAX_NUM / 10;
 ENEMY_SIZE = HERO_SIZE;
 
 // Images
@@ -78,8 +80,8 @@ function setupDisplayFrame() {
 }
 
 function platformsSpawn(n) {
-	const min_X = (displayFrame.position.x - displayFrame.width / 2) - displayFrame.width * 3;
-	const max_X = (displayFrame.position.x + displayFrame.width / 2) + displayFrame.width * 3;
+	const min_X = (displayFrame.position.x - displayFrame.width / 2) - displayFrame.width * 2;
+	const max_X = (displayFrame.position.x + displayFrame.width / 2) + displayFrame.width * 2;
 	const min_Y = (displayFrame.position.y - displayFrame.height / 2) - displayFrame.height;
 	const max_Y = hero.sprite.position.y - hero.sprite.height / 4;
 
@@ -421,14 +423,16 @@ function enemiesShoot(e) {
 
 			const pointToShootVec = createVector(hero.sprite.position.x - x, hero.sprite.position.y - y);
 
-			const d = round(dist(x, y, hero.sprite.position.x, hero.sprite.position.y) / 100);
+			const d = round(dist(x, y, hero.sprite.position.x, hero.sprite.position.y) / 30);
 
 			const head = degrees(pointToShootVec.heading());
 
 			const k = floor(random(-1, 2));
 
-			const rotation = round(random(head, head + k * 20));
-			const speed = round(random(d, d + 3));
+			const rotation = round(random(head, head + k * 25));
+			const speed = round(random(d, d + 10));
+
+			console.log(speed);
 
 			const newShot = new Shot(x, y, speed, rotation, 'rgb(0, 0, 0)');
 			newShot.sprite.enemyShot = true;
