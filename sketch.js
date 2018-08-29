@@ -411,14 +411,7 @@ function enemiesCollidePlatforms() {
 	enemies.collide(platforms);
 }
 
-function shotsCollideEnemies(e) {
-	hero.shots.forEach(s => {
-		if (e.overlap(s)) {
-			e.remove();
-			s.remove();
-		}
-	});
-}
+
 
 function enemiesShoot(e) {
 	if (e.class === 'shooting' && e.overlap(displayFrame)) {
@@ -439,7 +432,7 @@ function enemiesShoot(e) {
 
 function enemiesLogic() {
 	enemies.forEach(e => {
-		shotsCollideEnemies(e);
+		// shotsCollideEnemies(e);
 		enemiesShoot(e);
 	});
 }
@@ -449,16 +442,47 @@ function enemiesLogic() {
 
 
 
+/*
+* Shots
+*
+*/
 
-
-
-function shotsCollideAll() {
+function shotsCollideEnemies(e) {
 	hero.shots.forEach(s => {
+		if (e.overlap(s)) {
+			e.remove();
+			s.remove();
+		}
+	});
+}
+
+
+function heroShotsCollide() {
+	hero.shots.forEach(s => {
+		enemies.forEach(e => {
+			if (e.overlap(s)) {
+				e.remove();
+				s.remove();
+			}
+		});
 		if (!s.overlap(displayFrame) || s.overlap(platforms)) {
 			s.remove();
 		}
 	});
 }
+
+function shotsLogic() {
+	heroShotsCollide();
+}
+
+/*
+*
+*
+*/
+
+
+
+
 
 function countHeight() {
 	height = (hero.sprite.position.y > 0) 
@@ -502,7 +526,8 @@ function draw() {
 	enemiesCollidePlatforms();
 	enemiesLogic();
 
-	shotsCollideAll()
+	// shotsCollideAll()
+	shotsLogic();
 
 	spawnPlatformsRightTime();
 	spawnEnemiesRightTime();
