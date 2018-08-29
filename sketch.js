@@ -320,6 +320,7 @@ function heroShoot() {
 	const heroVec = createVector(hero.sprite.position.x, hero.sprite.position.y);
 	const x = hero.sprite.position.x;
 	const y = hero.sprite.position.y;
+
 	const pointToShootVec = createVector(mouseX - HALF_W, mouseY - HALF_H);
 	pointToShootVec.setMag(magOfShootVec);
 
@@ -331,10 +332,16 @@ function heroShoot() {
 	}
 
 	if (mouseWentUp(LEFT) && hero.curShotsNum > 0) {
+
 		const rotation = degrees(pointToShootVec.heading());
 		const speed = round(magOfShootVec / 10);
+
 		const newShot = new Shot(x, y, speed, rotation, HERO_COLOR);
-		hero.shots.add(newShot.sprite);
+		newShot.sprite.heroShot = true;
+
+		// hero.shots.add(newShot.sprite);
+		shots.add(newShot.sprite);
+
 		hero.curShotsNum--;
 		magOfShootVec = 0;
 	}
@@ -418,10 +425,11 @@ function enemiesShoot(e) {
 
 			const rotation = degrees(pointToShootVec.heading());
 			const speed = 10;
+
 			const newShot = new Shot(x, y, speed, rotation, 'rgb(0, 0, 0)');
+			newShot.sprite.enemyShot = true;
+			shots.add(newShot.sprite);
 		}
-		
-		// hero.shots.add(newShot.sprite);
 	}
 }
 
@@ -441,20 +449,10 @@ function enemiesLogic() {
 *
 */
 
-function shotsCollideEnemies(e) {
-	hero.shots.forEach(s => {
-		if (e.overlap(s)) {
-			e.remove();
-			s.remove();
-		}
-	});
-}
-
-
-function heroShotsCollide() {
-	hero.shots.forEach(s => {
+function shotsCollide() {
+	shots.forEach(s => {
 		enemies.forEach(e => {
-			if (e.overlap(s)) {
+			if (e.overlap(s) && s.heroShot) {
 				e.remove();
 				s.remove();
 			}
@@ -466,7 +464,7 @@ function heroShotsCollide() {
 }
 
 function shotsLogic() {
-	heroShotsCollide();
+	shotsCollide();
 }
 
 /*

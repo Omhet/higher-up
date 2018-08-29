@@ -1,6 +1,6 @@
 class Enemy {
 	constructor(x, y, size) {
-		const randomClass = floor(random(0, 2));
+		const randomClass = floor(random(1, 2));
 
 		this.sprite = createSprite(x, y, size, size);
 		switch (randomClass) {
