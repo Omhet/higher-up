@@ -334,7 +334,7 @@ function heroShoot() {
 	if (mouseWentUp(LEFT) && hero.curShotsNum > 0) {
 		const rotation = degrees(pointToShootVec.heading());
 		const speed = round(magOfShootVec / 10);
-		const newShot = new HeroShot(x, y, speed, rotation);
+		const newShot = new Shot(x, y, speed, rotation, HERO_COLOR);
 		hero.shots.add(newShot.sprite);
 		hero.curShotsNum--;
 		magOfShootVec = 0;
@@ -391,6 +391,16 @@ function spawnPlatformsRightTime() {
 	}
 }
 
+
+
+
+
+
+
+
+
+
+
 function spawnEnemiesRightTime() {
 	if (enemies.length < ENEMY_MAX_NUM) {
 		enemiesSpawn(ENEMY_MAX_NUM - enemies.length);
@@ -400,18 +410,6 @@ function spawnEnemiesRightTime() {
 function enemiesCollidePlatforms() {
 	enemies.collide(platforms);
 }
-
-// function shotsCollideEnemies() {
-// 	enemies.forEach(e => {
-// 		hero.shots.forEach(s => {
-// 			if (e.overlap(s)) {
-// 				e.remove();
-// 				s.remove();
-// 			}
-// 		});
-// 	});
-// }
-
 
 function shotsCollideEnemies(e) {
 	hero.shots.forEach(s => {
@@ -425,8 +423,19 @@ function shotsCollideEnemies(e) {
 function enemiesLogic() {
 	enemies.forEach(e => {
 		shotsCollideEnemies(e);
+		if (e.class === 'shooting') {
+
+		}
 	});
 }
+
+
+
+
+
+
+
+
 
 function shotsCollideAll() {
 	hero.shots.forEach(s => {
