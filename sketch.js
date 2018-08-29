@@ -43,8 +43,8 @@ ENEMY_SIZE = HERO_SIZE;
 
 // Images
 HERO_IMG = {};
+PLATFORM_IMG = {};
 DISPLAY_FRAME_IMAGE = {};
-
 BACK_IMAGE = {};
 
 
@@ -73,6 +73,7 @@ const hero = {};
 
 function preload() {
 	HERO_IMG = loadImage('images/hero_1.png');
+	PLATFORM_IMG = loadImage('images/platform_1.png');
 	DISPLAY_FRAME_IMAGE = loadImage('images/water_back_3.png');
 	BACK_IMAGE = loadImage('images/oil_back_1.png');
 
