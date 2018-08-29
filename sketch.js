@@ -424,9 +424,12 @@ function enemiesShoot(e) {
 			const pointToShootVec = createVector(hero.sprite.position.x - x, hero.sprite.position.y - y);
 
 			const d = round(dist(x, y, hero.sprite.position.x, hero.sprite.position.y) / 100);
-			// console.log(d);
 
-			const rotation = degrees(pointToShootVec.heading());
+			const head = degrees(pointToShootVec.heading());
+
+			const k = floor(random(-1, 2));
+
+			const rotation = round(random(head, head + k * 20));
 			const speed = round(random(d, d + 3));
 
 			const newShot = new Shot(x, y, speed, rotation, 'rgb(0, 0, 0)');
