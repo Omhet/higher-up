@@ -120,20 +120,21 @@ function platformsSetup() {
 	platforms.add(basePlatform.sprite);
 }
 
+function createEnemy() {
+	let randIndex = round(random(1, platforms.length - 1));
+	let choosenPlatform = platforms[randIndex];
+	let x = choosenPlatform.position.x;
+	let y = choosenPlatform.position.y - ENEMY_SIZE;
+	let en = new Enemy(x, y, ENEMY_SIZE);
+	return en;
+}
+
 function enemiesSpawn(n) {
 	for (let i = 0; i < n; i++) {
-		let randIndex = round(random(1, platforms.length - 1));
-		let choosenPlatform = platforms[randIndex];
-		let x = choosenPlatform.position.x;
-		let y = choosenPlatform.position.y - ENEMY_SIZE;
-		let en = new Enemy(x, y, ENEMY_SIZE);
+		let en = createEnemy();
 		while (en.sprite.overlap(enemies) || en.sprite.overlap(displayFrame)) {
 			en.sprite.remove();
-			randIndex = round(random(1, platforms.length - 1));
-			choosenPlatform = platforms[randIndex];
-			x = choosenPlatform.position.x;
-			y = choosenPlatform.position.y - ENEMY_SIZE;
-			en = new Enemy(x, y, ENEMY_SIZE);
+			en = createEnemy();
 		}
 		enemies.add(en.sprite);
 	}
