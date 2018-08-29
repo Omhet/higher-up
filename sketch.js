@@ -401,14 +401,30 @@ function enemiesCollidePlatforms() {
 	enemies.collide(platforms);
 }
 
-function shotsCollideEnemies() {
+// function shotsCollideEnemies() {
+// 	enemies.forEach(e => {
+// 		hero.shots.forEach(s => {
+// 			if (e.overlap(s)) {
+// 				e.remove();
+// 				s.remove();
+// 			}
+// 		});
+// 	});
+// }
+
+
+function shotsCollideEnemies(e) {
+	hero.shots.forEach(s => {
+		if (e.overlap(s)) {
+			e.remove();
+			s.remove();
+		}
+	});
+}
+
+function enemiesLogic() {
 	enemies.forEach(e => {
-		hero.shots.forEach(s => {
-			if (e.overlap(s)) {
-				e.remove();
-				s.remove();
-			}
-		});
+		shotsCollideEnemies(e);
 	});
 }
 
@@ -460,8 +476,8 @@ function draw() {
 	cameraFollowHero();
 
 	enemiesCollidePlatforms();
+	enemiesLogic();
 
-	shotsCollideEnemies();
 	shotsCollideAll()
 
 	spawnPlatformsRightTime();
