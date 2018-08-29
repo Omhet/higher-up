@@ -148,6 +148,7 @@ function heroSetup() {
 	hero.shots = new Group();
 
 	hero.speed = HERO_SPEED;
+	hero.debugSpeed = HERO_SPEED * 2;
 
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
 	hero.sprite.scale = 1.3;
@@ -205,8 +206,8 @@ function gravity() {
 	allSprites.forEach(sp => {
 		sp.addSpeed(G, 90);
 		sp.velocity.y = (sp.velocity.y > SPRITE_VELOCITY_Y_MAX) 
-			? SPRITE_VELOCITY_Y_MAX 
-			: sp.velocity.y;
+		? SPRITE_VELOCITY_Y_MAX 
+		: sp.velocity.y;
 	});
 }
 
@@ -219,29 +220,52 @@ function gravity() {
 function heroMove() {
 	const hsp = hero.sprite;
 
+
 	// Key Controls
-	if (keyDown('a')) {
-		hsp.position.x -= hero.speed;
-	}
 
-	if (keyDown('d')) {
-		hsp.position.x += hero.speed;
-	}
+	if (DEBUG_MODE) {
 
-	if (hero.sprite.overlap(platforms)) {
+		if (keyDown('a')) {
+			hsp.position.x -= hero.debugSpeed;
+		}
+
+		if (keyDown('d')) {
+			hsp.position.x += hero.debugSpeed;
+		}
+
+		if (keyDown('w')) {
+			hsp.position.y -= hero.debugSpeed;
+		}
+
+		if (keyDown('s')) {
+			hsp.position.y += hero.debugSpeed;
+		}
+
+	} else {
+
+		if (keyDown('a')) {
+			hsp.position.x -= hero.speed;
+		}
+
+		if (keyDown('d')) {
+			hsp.position.x += hero.speed;
+		}
+
+		if (hero.sprite.overlap(platforms)) {
 			hero.jumpNum = 2;
-	}
+		}
 
-	if (hero.jumpNum > 0) {
+		if (hero.jumpNum > 0) {
 			if (keyWentDown('space')) {
 				hsp.velocity.y = HERO_JUMP_FORCE;
 			}
-	}
+		}
 
-	if (keyWentUp('space')) {
-				hero.jumpNum--;
-				hero.jumpNum = (hero.jumpNum < 0) ? 0 : hero.jumpNum;
-				hsp.velocity.y = SPRITE_VELOCITY_Y_MAX;
+		if (keyWentUp('space')) {
+			hero.jumpNum--;
+			hero.jumpNum = (hero.jumpNum < 0) ? 0 : hero.jumpNum;
+			hsp.velocity.y = SPRITE_VELOCITY_Y_MAX;
+		}
 	}
 }
 
@@ -263,9 +287,11 @@ function cameraFollowHero() {
 }
 
 function heroDeath() {
-	hero.sprite.remove();
-	hero.dead = true;
-	gameOver = true;
+	if (!DEBUG_MODE) {
+		hero.sprite.remove();
+		hero.dead = true;
+		gameOver = true;
+	}
 }
 
 function heroCollideEnemies() {
@@ -276,17 +302,17 @@ function heroCollideEnemies() {
 
 // draw an arrow for a vector at a given base position
 function drawArrow(base, vec, myColor) {
-  push();
-  stroke(myColor);
-  strokeWeight(3);
-  fill(myColor);
-  translate(base.x, base.y);
-  line(0, 0, vec.x, vec.y);
-  rotate(vec.heading());
-  var arrowSize = 7;
-  translate(vec.mag() - arrowSize, 0);
-  triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
-  pop();
+	push();
+	stroke(myColor);
+	strokeWeight(3);
+	fill(myColor);
+	translate(base.x, base.y);
+	line(0, 0, vec.x, vec.y);
+	rotate(vec.heading());
+	var arrowSize = 7;
+	translate(vec.mag() - arrowSize, 0);
+	triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+	pop();
 }
 
 let magOfShootVec = 0;
@@ -298,10 +324,10 @@ function heroShoot() {
 	pointToShootVec.setMag(magOfShootVec);
 
 	if (mouseDown(LEFT) && hero.curShotsNum > 0) {
-			magOfShootVec += 10;
-			magOfShootVec = (magOfShootVec > SHOT_HERO_MAX_SPEED * 10) 
-				? SHOT_HERO_MAX_SPEED * 10
-				: magOfShootVec;
+		magOfShootVec += 10;
+		magOfShootVec = (magOfShootVec > SHOT_HERO_MAX_SPEED * 10) 
+		? SHOT_HERO_MAX_SPEED * 10
+		: magOfShootVec;
 	}
 
 	if (mouseWentUp(LEFT) && hero.curShotsNum > 0) {
@@ -376,15 +402,18 @@ function enemiesCollidePlatforms() {
 
 function shotsCollideEnemies() {
 	enemies.forEach(e => {
-		if (e.overlap(hero.shots)) {
-			e.remove();
-		}
+		hero.shots.forEach(s => {
+			if (e.overlap(s)) {
+				e.remove();
+				s.remove();
+			}
+		});
 	});
 }
 
 function shotsCollideAll() {
 	hero.shots.forEach(s => {
-		if (s.overlap(platforms) || s.overlap(enemies) || !s.overlap(displayFrame)) {
+		if (!s.overlap(displayFrame) || s.overlap(platforms)) {
 			s.remove();
 		}
 	});
@@ -392,8 +421,8 @@ function shotsCollideAll() {
 
 function countHeight() {
 	height = (hero.sprite.position.y > 0) 
-		? 0
-		: round(hero.sprite.position.y / -100);
+	? 0
+	: round(hero.sprite.position.y / -100);
 	maxHeight = (height > maxHeight) ? height : maxHeight;
 }
 
@@ -404,20 +433,24 @@ function updateGUI() {
 	curShotsNumEl.style.width = `${curShotsWidth}%`;
 }
 
+function debugModeUpdate() {
+	if (DEBUG_MODE) {
+		allSprites.forEach(s => {
+			s.debug = true;
+		});
+	} else {
+	}
+}
+
 function draw() {
 	background('rgba(20, 20, 40, 1)');
 
-	if (!DEBUG_MODE) {
-
-	} else {
-
-	}
+	debugModeUpdate();
 
 	gravity();
 
 	moveDisplay();
 	collideDisplay();
-
 
 	heroCollidePlatforms();
 	heroCollideEnemies();
