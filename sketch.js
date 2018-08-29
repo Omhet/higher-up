@@ -14,7 +14,7 @@ DISPLAY_SPEED = -0.9;
 
 CAMERA_ZOOM = 0.5;
 
-DEBUG_MODE = true;
+DEBUG_MODE = false;
 
 // Constants for objects
 G = 0.2;
@@ -451,15 +451,23 @@ function enemiesLogic() {
 
 function shotsCollide() {
 	shots.forEach(s => {
+
 		enemies.forEach(e => {
 			if (e.overlap(s) && s.heroShot) {
 				e.remove();
 				s.remove();
 			}
 		});
+
 		if (!s.overlap(displayFrame) || s.overlap(platforms)) {
 			s.remove();
 		}
+
+		if (s.overlap(hero.sprite) && s.enemyShot) {
+			heroDeath();
+			s.remove();
+		}
+
 	});
 }
 
