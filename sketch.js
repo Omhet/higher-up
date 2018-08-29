@@ -420,12 +420,27 @@ function shotsCollideEnemies(e) {
 	});
 }
 
+function enemiesShoot(e) {
+	if (e.class === 'shooting' && e.overlap(displayFrame)) {
+		if (frameCount % 64 === 0) {
+			const x = e.position.x;
+			const y = e.position.y;
+
+			const pointToShootVec = createVector(hero.sprite.position.x - x, hero.sprite.position.y - y);
+
+			const rotation = degrees(pointToShootVec.heading());
+			const speed = 10;
+			const newShot = new Shot(x, y, speed, rotation, 'rgb(0, 0, 0)');
+		}
+		
+		// hero.shots.add(newShot.sprite);
+	}
+}
+
 function enemiesLogic() {
 	enemies.forEach(e => {
 		shotsCollideEnemies(e);
-		if (e.class === 'shooting') {
-
-		}
+		enemiesShoot(e);
 	});
 }
 
