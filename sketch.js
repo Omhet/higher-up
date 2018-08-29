@@ -4,6 +4,8 @@ let curShotsNumEl;
 let guiEl;
 
 
+
+
 // Constants for game
 // W = window.innerWidth;
 // H = window.innerHeight;
@@ -11,6 +13,8 @@ W = 800;
 H = 600;
 HALF_W = W / 2;
 HALF_H = H / 2;
+DOUBLE_W = W * 2;
+DOUBLE_H = H * 2;
 
 DISPLAY_SPEED = -0.9;
 
@@ -41,6 +45,9 @@ ENEMY_SIZE = HERO_SIZE;
 HERO_IMG = {};
 DISPLAY_FRAME_IMAGE = {};
 
+BACK_IMAGE = {};
+
+
 // Animations
 ANIMATION_ENEMY_BASIC = {};
 
@@ -67,6 +74,8 @@ const hero = {};
 function preload() {
 	HERO_IMG = loadImage('images/hero_1.png');
 	DISPLAY_FRAME_IMAGE = loadImage('images/water_back_3.png');
+	BACK_IMAGE = loadImage('images/oil_back_1.png');
+
 	ANIMATION_ENEMY_BASIC = loadAnimation('animations/enemy_basic_1/output-0.png', 
 		'animations/enemy_basic_1/output-47.png');
 }
@@ -182,6 +191,11 @@ function guiSetup() {
 	guiEl = document.getElementById('gui');
 }
 
+function backImageSetup() {
+	
+	BACK_IMAGE_HALF_H = BACK_IMAGE.height / 2;
+}
+
 function setup() {
 	createCanvas(W, H);
 
@@ -200,6 +214,9 @@ function setup() {
 
 	// Tech Setup
 	camera.zoom = CAMERA_ZOOM;
+	
+	backImageSetup();
+
 	localStorageSetup();
 	guiSetup();
 }
@@ -522,13 +539,21 @@ function debugModeUpdate() {
 	}
 }
 
+
+function backImageUpdate() {
+	BACK_IMAGE_X =  displayFrame.position.x -displayFrame.width / 2;
+	BACK_IMAGE_Y = displayFrame.position.y + displayFrame.height / 2 - BACK_IMAGE.height / 2;
+}
+
 /*
 *
 *
 */
 
 function draw() {
-	background('rgba(20, 20, 40, 1)');
+	background('rgba(0, 0, 0, 1)');
+
+	backImageUpdate();
 
 	debugModeUpdate();
 
@@ -560,6 +585,11 @@ function draw() {
 	heroShoot();
 
 	updateGUI();
+
+
+
+	// camera.off();
+	image(BACK_IMAGE, BACK_IMAGE_X, BACK_IMAGE_Y, DOUBLE_W, BACK_IMAGE_HALF_H);
 
 }
 
