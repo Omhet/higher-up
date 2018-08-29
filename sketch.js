@@ -20,7 +20,7 @@ DISPLAY_SPEED = -0.9;
 
 CAMERA_ZOOM = 0.5;
 
-DEBUG_MODE = false;
+DEBUG_MODE = true;
 
 // Constants for objects
 G = 0.2;
