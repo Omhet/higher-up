@@ -5,8 +5,8 @@ let guiEl;
 
 
 // Constants for game
-W = 800;
-H = 600;
+W = window.innerWidth;
+H = window.innerHeight;
 HALF_W = W / 2;
 HALF_H = H / 2;
 
@@ -14,7 +14,7 @@ DISPLAY_SPEED = -0.9;
 
 CAMERA_ZOOM = 0.5;
 
-DEBUG_MODE = true;
+DEBUG_MODE = false;
 
 // Constants for objects
 G = 0.2;
@@ -28,10 +28,8 @@ HERO_COLOR = 'rgb(222, 125, 20)';
 HERO_MAX_SHOTS_NUM = 5;
 
 // Platforms
-PLATFORM_MIN_SIZE = 50;
-PLATFORM_MAX_SIZE = 300;
-PLATFORM_START_NUM = 10;
-PLATFORM_MAX_NUM = 100;
+PLATFORM_START_NUM = W / 80;
+PLATFORM_MAX_NUM = W / 8;
 
 // Enemies
 ENEMY_MAX_NUM = 10;
