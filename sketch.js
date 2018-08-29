@@ -7,10 +7,10 @@ let guiEl;
 
 
 // Constants for game
-// W = window.innerWidth;
-// H = window.innerHeight;
-W = 800;
-H = 600;
+W = window.innerWidth / 2;
+H = window.innerHeight / 1.5;
+// W = 800;
+// H = 600;
 HALF_W = W / 2;
 HALF_H = H / 2;
 DOUBLE_W = W * 2;
@@ -86,7 +86,6 @@ function setupDisplayFrame() {
 	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, (H / CAMERA_ZOOM) * 1.5);
 	DISPLAY_FRAME_IMAGE.resize(displayFrame.width, displayFrame.height);
 	displayFrame.addImage(DISPLAY_FRAME_IMAGE);
-	// displayFrame.shapeColor = color('rgba(210, 255, 255, 0.9)');
 }
 
 function platformsSpawn(n) {
@@ -526,9 +525,10 @@ function countHeight() {
 
 function updateGUI() {
 	maxHeightScoreEl.textContent = maxHeight;
-	// curShotsNumEl.textContent = hero.curShotsNum;
 	const curShotsWidth = map(hero.curShotsNum, 0, HERO_MAX_SHOTS_NUM, 0, 100);
 	curShotsNumEl.style.width = `${curShotsWidth}%`;
+
+	guiEl.style.width = `${W}px`;
 }
 
 function debugModeUpdate() {
