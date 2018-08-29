@@ -66,17 +66,17 @@ const hero = {};
 
 function preload() {
 	HERO_IMG = loadImage('images/hero_1.png');
-	DISPLAY_FRAME_IMAGE = loadImage('images/waves.png');
+	DISPLAY_FRAME_IMAGE = loadImage('images/water_back_3.png');
 	ANIMATION_ENEMY_BASIC = loadAnimation('animations/enemy_basic_1/output-0.png', 
 		'animations/enemy_basic_1/output-47.png');
 }
 
 // Setup Functions
 function setupDisplayFrame() {
-	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, H / CAMERA_ZOOM);
+	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, (H / CAMERA_ZOOM) * 1.5);
 	DISPLAY_FRAME_IMAGE.resize(displayFrame.width, displayFrame.height);
-	// displayFrame.addImage(DISPLAY_FRAME_IMAGE);
-	displayFrame.shapeColor = color('rgba(210, 255, 255, 0.9)');
+	displayFrame.addImage(DISPLAY_FRAME_IMAGE);
+	// displayFrame.shapeColor = color('rgba(210, 255, 255, 0.9)');
 }
 
 function platformsSpawn(n) {
@@ -374,7 +374,7 @@ function moveDisplay() {
 	if (!hero.dead)
 		displayFrame.position.x = hero.sprite.position.x;
 	if (ht < displayFrame.position.y) {
-		displayFrame.position.y -= displayFrame.height / 6;
+		displayFrame.position.y -= 10;
 	}
 	displayFrame.velocity.y = DISPLAY_SPEED;
 }
