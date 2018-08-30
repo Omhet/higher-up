@@ -22,6 +22,7 @@ function draw() {
 	cameraFollowHero();
 	heroDeath();
 	heroImmortalCount();
+	heroImmortalBlink();
 
 	// Enemies
 	enemiesLogic();

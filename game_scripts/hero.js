@@ -157,6 +157,15 @@ function heroImmortalCount() {
 	if (frameCount % 200 === 0) {
 		if (hero.immortal) {
 			hero.immortal = false;
+			hero.sprite.visible = true;
+		}
+	}
+}
+
+function heroImmortalBlink() {
+	if (hero.immortal) {
+		if (frameCount % 10 === 0) {
+			hero.sprite.visible = !hero.sprite.visible;
 		}
 	}
 }
