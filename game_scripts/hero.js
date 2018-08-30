@@ -71,7 +71,7 @@ function cameraFollowHero() {
 }
 
 function heroDeath() {
-	if (!DEBUG_MODE) {
+	if (!DEBUG_MODE && hero.curHP === 0) {
 		hero.sprite.remove();
 		hero.dead = true;
 		gameOver = true;
@@ -81,7 +81,7 @@ function heroDeath() {
 
 function heroCollideEnemies() {
 	if (hero.sprite.overlap(enemies)) {
-		heroDeath();
+		heroTakeDamage(ENEMY_BASIC_COLLIDE_DMG);
 	}
 }
 
@@ -124,7 +124,6 @@ function heroShoot() {
 		const newShot = new Shot(x, y, speed, rotation, HERO_SHOT_IMG);
 		newShot.sprite.heroShot = true;
 
-		// hero.shots.add(newShot.sprite);
 		shots.add(newShot.sprite);
 
 		hero.curShotsNum--;

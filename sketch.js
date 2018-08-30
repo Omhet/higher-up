@@ -20,6 +20,7 @@ function draw() {
 	restoreHeroShots();
 	heroMove();
 	cameraFollowHero();
+	heroDeath();
 
 	// Enemies
 	enemiesLogic();

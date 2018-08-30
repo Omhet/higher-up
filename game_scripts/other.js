@@ -38,7 +38,7 @@ function collideDisplay() {
 		if (spb > dfb) {
 			sp.remove();
 			if (sp.isHero) {
-				heroDeath();
+				heroTakeDamage(HERO_MAX_HP);
 			}
 		}
 	});

@@ -18,7 +18,7 @@ function shotsCollide() {
 		}
 
 		if (s.overlap(hero.sprite) && s.enemyShot) {
-			heroDeath();
+			heroTakeDamage(s.enemyDamage);
 			s.remove();
 		}
 

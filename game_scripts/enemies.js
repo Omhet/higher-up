@@ -55,6 +55,8 @@ function enemiesShoot(e) {
 
 			const newShot = new Shot(x, y, speed, rotation, ENEMY_BASIC_SHOT_IMG);
 			newShot.sprite.enemyShot = true;
+			newShot.sprite.enemyDamage = ENEMY_BASIC_SHOT_DMG;
+
 			shots.add(newShot.sprite);
 		}
 	}
