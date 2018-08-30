@@ -72,8 +72,10 @@ function imagesSetup() {
 
 	ENEMY_BASIC_SHOT_IMG.resize(SHOT_SIZE, SHOT_SIZE);
 
-	COLLECT_IMG_JUMP_HIGHER.resize(COLLECT_SIZE, COLLECT_SIZE);
-	COLLECT_IMG_JUMP_LOWER.resize(COLLECT_SIZE, COLLECT_SIZE);
+	const collectImgNames = Object.keys(COLECT_IMG_MAP);
+	collectImgNames.forEach(imgName => {
+		COLECT_IMG_MAP[imgName].resize(COLLECT_SIZE, COLLECT_SIZE);
+	});
 }
 
 function collectSetup() {

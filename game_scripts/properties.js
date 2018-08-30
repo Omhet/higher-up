@@ -60,9 +60,14 @@ DISPLAY_FRAME_IMAGE = {};
 BACK_IMAGE = {};
 GAME_OVER_IMAGE = {};
 
-COLLECT_IMG_JUMP_HIGHER = {};
-COLLECT_IMG_JUMP_LOWER = {};
 
+COLECT_IMG_MAP = {
+	'jump-higher': {},
+	'jump-lower': {},
+	'screen-rotate-180': {},
+	'screen-rotate-90': {},
+	'screen-rotate-270': {},
+};
 
 // Animations
 ANIMATION_ENEMY_BASIC = {};

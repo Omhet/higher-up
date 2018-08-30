@@ -49,6 +49,18 @@ function collectsEffects(c) {
 			hero.jumpForce = COLLECT_JUMP_LOWER;
 		}
 
+		else if (c.class === 'screen-rotate-180') {
+			canvas.style.transform = 'rotate(180deg)';
+		}
+
+		else if (c.class === 'screen-rotate-90') {
+			canvas.style.transform = 'rotate(90deg)';
+		}
+
+		else if (c.class === 'screen-rotate-270') {
+			canvas.style.transform = 'rotate(270deg)';
+		}
+
 		c.remove();
 	}
 
@@ -57,7 +69,10 @@ function collectsEffects(c) {
 		if (effectDuration > 0) {
 			effectDuration--;
 		} else {
+
 			hero.jumpForce = HERO_JUMP_FORCE;
+			canvas.style.transform = 'rotate(0deg)';
+
 			collectEffectActive = false;
 			effectDuration = 0;
 		}

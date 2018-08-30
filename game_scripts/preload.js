@@ -11,8 +11,10 @@ function preload() {
 	BACK_IMAGE = loadImage('images/oil_back_1.png');
 	GAME_OVER_IMAGE = loadImage('images/game_over.png');
 
-	COLLECT_IMG_JUMP_HIGHER = loadImage('images/collects/jump_higher.png');
-	COLLECT_IMG_JUMP_LOWER = loadImage('images/collects/jump_lower.png');
+	const collectImgNames = Object.keys(COLECT_IMG_MAP);
+	collectImgNames.forEach(imgName => {
+		COLECT_IMG_MAP[imgName] = loadImage(`images/collects/${imgName}.png`);
+	});
 
 	// Animations
 	ANIMATION_ENEMY_BASIC = loadAnimation('animations/enemy_basic_1/output-0.png', 
