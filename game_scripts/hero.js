@@ -43,7 +43,7 @@ function heroMove() {
 
 		if (hero.jumpNum > 0) {
 			if (keyWentDown('space')) {
-				hsp.velocity.y = HERO_JUMP_FORCE;
+				hsp.velocity.y = hero.jumpForce;
 			}
 		}
 

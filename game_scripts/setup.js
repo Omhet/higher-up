@@ -29,6 +29,8 @@ function heroSetup() {
 	hero.speed = HERO_SPEED;
 	hero.debugSpeed = HERO_SPEED * 2;
 
+	hero.jumpForce = HERO_JUMP_FORCE;
+
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
 	hero.sprite.scale = 1.3;
 
@@ -62,6 +64,10 @@ function backImageSetup() {
 	BACK_IMAGE_HALF_H = BACK_IMAGE.height / 2;
 }
 
+function collectSetup() {
+	collectibles = new Group();
+}
+
 function setup() {
 	createCanvas(W, H);
 
@@ -77,6 +83,7 @@ function setup() {
 	platformsSetup();
 	enemiesSetup();
 	shotsSetup();
+	collectSetup();
 
 	// Tech Setup
 	camera.zoom = CAMERA_ZOOM;

@@ -53,8 +53,6 @@ function enemiesShoot(e) {
 			const rotation = round(random(head, head + k * 25));
 			const speed = round(random(d, d + 10));
 
-			console.log(speed);
-
 			const newShot = new Shot(x, y, speed, rotation, 'rgb(0, 0, 0)');
 			newShot.sprite.enemyShot = true;
 			shots.add(newShot.sprite);
@@ -66,6 +64,7 @@ function enemiesLogic() {
 	enemies.forEach(e => {
 		enemiesShoot(e);
 	});
+	enemiesCollidePlatforms();
 }
 
 /*
