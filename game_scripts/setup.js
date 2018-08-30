@@ -56,6 +56,7 @@ function localStorageSetup() {
 function guiSetup() {
 	maxHeightScoreEl = document.getElementById('max-height-score');
 	curShotsNumEl = document.getElementById('cur-shots-num');
+	collectEffectDurationEl = document.getElementById('collect-effect-duration');
 	guiEl = document.getElementById('gui');
 }
 

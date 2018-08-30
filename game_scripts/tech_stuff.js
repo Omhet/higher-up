@@ -18,8 +18,12 @@ function countHeight() {
 
 function updateGUI() {
 	maxHeightScoreEl.textContent = maxHeight;
+
 	const curShotsWidth = map(hero.curShotsNum, 0, HERO_MAX_SHOTS_NUM, 0, 100);
 	curShotsNumEl.style.width = `${curShotsWidth}%`;
+
+	const curColEfDurWidth = map(effectDuration, 0, COLLECT_EFFECT_DURATION, 0, 100);
+	collectEffectDurationEl.style.width = `${curColEfDurWidth}%`;
 
 	guiEl.style.width = `${W}px`;
 }

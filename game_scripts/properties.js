@@ -1,6 +1,7 @@
 // GUI
 let maxHeightScoreEl;
 let curShotsNumEl;
+let collectEffectDurationEl;
 let guiEl;
 
 // Constants for game
@@ -43,6 +44,7 @@ ENEMY_SIZE = HERO_SIZE;
 // Collectibles
 COLLECT_MAX_NUM = PLATFORM_MAX_NUM / 5;
 COLLECT_SIZE = HERO_SIZE;
+COLLECT_EFFECT_DURATION = 1500;
 
 COLLECT_JUMP_HIGHER = HERO_JUMP_FORCE * 2;
 COLLECT_JUMP_LOWER = HERO_JUMP_FORCE / 2;
@@ -75,6 +77,8 @@ let height = 0;
 let maxHeight = 0;
 
 let gameOver = false;
+
+let effectDuration = 0;
 
 // Create Hero
 const hero = {};

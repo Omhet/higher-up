@@ -38,7 +38,7 @@ function collectsEffects(c) {
 
 	if (hero.sprite.overlap(c)) {
 
-		console.log(c.class);
+		effectDuration = COLLECT_EFFECT_DURATION;
 		collectEffectActive = true;
 
 		if (c.class === 'jump-higher') {
@@ -52,10 +52,16 @@ function collectsEffects(c) {
 		c.remove();
 	}
 
-	if (frameCount % 200 === 0 && collectEffectActive) {
-		console.log('Back to Normal');
-		hero.jumpForce = HERO_JUMP_FORCE;
-		collectEffectActive = false;
+	if (collectEffectActive) {
+
+		if (effectDuration > 0) {
+			effectDuration--;
+		} else {
+			hero.jumpForce = HERO_JUMP_FORCE;
+			collectEffectActive = false;
+			effectDuration = 0;
+		}
+		
 	}
 
 }
