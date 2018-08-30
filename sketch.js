@@ -40,7 +40,9 @@ function draw() {
 
 	drawSprites();
 
-	heroShoot();
+	if (!hero.dead && hero.sprite.visible) {
+		heroShoot();
+	}
 
 	updateGUI();
 
