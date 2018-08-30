@@ -53,7 +53,7 @@ function enemiesShoot(e) {
 			const rotation = round(random(head, head + k * 25));
 			const speed = round(random(d, d + 10));
 
-			const newShot = new Shot(x, y, speed, rotation, 'rgb(0, 0, 0)');
+			const newShot = new Shot(x, y, speed, rotation, ENEMY_BASIC_SHOT_IMG);
 			newShot.sprite.enemyShot = true;
 			shots.add(newShot.sprite);
 		}

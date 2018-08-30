@@ -1,8 +1,7 @@
 
 // Setup Functions
 function setupDisplayFrame() {
-	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, (H / CAMERA_ZOOM) * 1.5);
-	DISPLAY_FRAME_IMAGE.resize(displayFrame.width, displayFrame.height);
+	displayFrame = createSprite(HALF_W, HALF_H, DISPLAY_W, DISPLAY_H);
 	displayFrame.addImage(DISPLAY_FRAME_IMAGE);
 	displaySpeed = DISPLAY_MIN_SPEED;
 }
@@ -34,8 +33,8 @@ function heroSetup() {
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
 	hero.sprite.scale = 1.3;
 
-	HERO_IMG.resize(HERO_SIZE, HERO_SIZE);
 	hero.sprite.addImage(HERO_IMG);
+
 
 	hero.sprite.isHero = true;
 }
@@ -61,8 +60,17 @@ function guiSetup() {
 }
 
 function backImageSetup() {
-	
+}
+
+function imagesSetup() {
 	BACK_IMAGE_HALF_H = BACK_IMAGE.height / 2;
+
+	DISPLAY_FRAME_IMAGE.resize(DISPLAY_W, DISPLAY_H);
+
+	HERO_IMG.resize(HERO_SIZE, HERO_SIZE);
+	HERO_SHOT_IMG.resize(SHOT_SIZE, SHOT_SIZE);
+
+	ENEMY_BASIC_SHOT_IMG.resize(SHOT_SIZE, SHOT_SIZE);
 }
 
 function collectSetup() {
@@ -77,6 +85,8 @@ function setup() {
 		G = 0;
 		DISPLAY_SPEED = 0;
 	}
+
+	imagesSetup();
 
 	// Objects Setup
 	setupDisplayFrame();

@@ -121,7 +121,7 @@ function heroShoot() {
 		const rotation = degrees(pointToShootVec.heading());
 		const speed = round(magOfShootVec / 10);
 
-		const newShot = new Shot(x, y, speed, rotation, HERO_COLOR);
+		const newShot = new Shot(x, y, speed, rotation, HERO_SHOT_IMG);
 		newShot.sprite.heroShot = true;
 
 		// hero.shots.add(newShot.sprite);
