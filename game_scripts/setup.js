@@ -30,6 +30,8 @@ function heroSetup() {
 	hero.speed = HERO_SPEED;
 	hero.debugSpeed = HERO_SPEED * 2;
 
+	hero.immortal = false;
+
 	hero.jumpForce = HERO_JUMP_FORCE;
 
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);

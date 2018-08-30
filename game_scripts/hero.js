@@ -141,13 +141,24 @@ function restoreHeroShots() {
 }
 
 function heroTakeDamage(n) {
-	hero.curHP -= n;
+	if (!hero.immortal) {
+		hero.curHP -= n;
+	}
+	hero.immortal = true;
 	hero.curHP = (hero.curHP < 0) ? 0 : hero.curHP;
 }
 
 function heroTakeHealth(n) {
 	hero.curHP += n;
 	hero.curHP = (hero.curHP > HERO_MAX_HP) ? HERO_MAX_HP : hero.curHP;
+}
+
+function heroImmortalCount() {
+	if (frameCount % 200 === 0) {
+		if (hero.immortal) {
+			hero.immortal = false;
+		}
+	}
 }
 
 /*
