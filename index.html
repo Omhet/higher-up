@@ -79,10 +79,32 @@ canvas {
   border-radius: 2px;
 }
 
+#heroHpEl {
+  display: flex;
+  height: 100%;
+}
+
+.heart {
+  background-image: url(images/heart.png);
+  background-size: 2em 2em;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 2em;
+  flex: 1 0 2em;
+}
+
 </style>
 </head>
 <body>
   <div id="gui">
+    <div class="hero-hp-wrapper">
+      <div id="heroHpEl">
+        <!-- <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div> -->
+      </div>
+    </div>
     <div class="cur-shots-num-wrapper">
       <span>Заряд</span> 
       <div id="cur-shots-num"></div>

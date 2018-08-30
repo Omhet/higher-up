@@ -26,6 +26,18 @@ function updateGUI() {
 	collectEffectDurationEl.style.width = `${curColEfDurWidth}%`;
 
 	guiEl.style.width = `${W}px`;
+
+	if (heroHpEl.children.length < hero.curHP) {
+		const heartEl = document.createElement('div');
+		heartEl.classList.add('heart');
+		heroHpEl.append(heartEl);
+	} else if (heroHpEl.children.length > hero.curHP){
+		if (heroHpEl.children.length > 0) {
+			const firstHeart = heroHpEl.children[0];
+			firstHeart.remove();
+		}
+	}
+
 }
 
 function debugModeUpdate() {

@@ -25,6 +25,8 @@ function heroSetup() {
 	hero.curShotsNum = HERO_MAX_SHOTS_NUM;
 	hero.shots = new Group();
 
+	hero.curHP = HERO_START_HP;
+
 	hero.speed = HERO_SPEED;
 	hero.debugSpeed = HERO_SPEED * 2;
 

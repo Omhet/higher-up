@@ -141,6 +141,16 @@ function restoreHeroShots() {
 	}
 }
 
+function heroTakeDamage(n) {
+	hero.curHP -= n;
+	hero.curHP = (hero.curHP < 0) ? 0 : hero.curHP;
+}
+
+function heroTakeHealth(n) {
+	hero.curHP += n;
+	hero.curHP = (hero.curHP > HERO_MAX_HP) ? HERO_MAX_HP : hero.curHP;
+}
+
 /*
 *
 *
