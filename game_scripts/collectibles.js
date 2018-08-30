@@ -43,24 +43,45 @@ function collectsEffects(c) {
 
 		if (c.class === 'jump-higher') {
 			hero.jumpForce = COLLECT_JUMP_HIGHER;
-			effectNameEl.textContent = 'Сильный прыжок';
+			effectNameEl.textContent += ' Сильный прыжок';
 		}
 
 		else if (c.class === 'jump-lower') {
 			hero.jumpForce = COLLECT_JUMP_LOWER;
-			effectNameEl.textContent = 'Слабый прыжок';
+			effectNameEl.textContent += ' Слабый прыжок';
 		}
 
-		else if (c.class === 'screen-rotate-180') {
+		if (c.class === 'screen-rotate-180') {
 			canvas.style.transform = 'rotate(180deg)';
 		}
 
-		else if (c.class === 'screen-rotate-90') {
+		if (c.class === 'screen-rotate-90') {
 			canvas.style.transform = 'rotate(90deg)';
 		}
 
-		else if (c.class === 'screen-rotate-270') {
+		if (c.class === 'screen-rotate-270') {
 			canvas.style.transform = 'rotate(270deg)';
+		}
+
+		if (c.class === 'invisible') {
+			hero.sprite.visible = false;
+			effectNameEl.textContent += ' Невидимость';
+		}
+
+		if (c.class === 'size-up') {
+			const scale = hero.sprite.scale * 4;
+			hero.sprite.scale = scale;
+			hero.sprite.width = HERO_SIZE * scale;
+			hero.sprite.height = HERO_SIZE * scale;
+			effectNameEl.textContent += ' Большой Размер';
+		}
+
+		else if (c.class === 'size-down') {
+			const scale = hero.sprite.scale / 2;
+			hero.sprite.scale = scale;
+			hero.sprite.width = HERO_SIZE * scale;
+			hero.sprite.height = HERO_SIZE * scale;
+			effectNameEl.textContent += ' Маленький Размер';
 		}
 
 		c.remove();
@@ -72,7 +93,13 @@ function collectsEffects(c) {
 			effectDuration--;
 		} else {
 
+			hero.sprite.scale = HERO_SCALE;
+			hero.sprite.width = hero.sprite.originalWidth;
+			hero.sprite.height = hero.sprite.originalHeight;
+
 			hero.jumpForce = HERO_JUMP_FORCE;
+			hero.sprite.visible = true;
+
 			canvas.style.transform = 'rotate(0deg)';
 
 			effectNameEl.textContent = '';

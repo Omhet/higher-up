@@ -31,7 +31,7 @@ function heroSetup() {
 	hero.jumpForce = HERO_JUMP_FORCE;
 
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
-	hero.sprite.scale = 1.3;
+	hero.sprite.scale = HERO_SCALE;
 
 	hero.sprite.addImage(HERO_IMG);
 

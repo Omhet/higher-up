@@ -30,6 +30,7 @@ SPRITE_VELOCITY_Y_MAX = 7;
 // Hero
 HERO_SPEED = 5;
 HERO_SIZE = 50;
+HERO_SCALE = 1.3;
 HERO_JUMP_FORCE = -10;
 HERO_COLOR = 'rgb(222, 125, 20)';
 HERO_MAX_SHOTS_NUM = 5;
@@ -68,6 +69,9 @@ COLECT_IMG_MAP = {
 	'screen-rotate-180': {},
 	'screen-rotate-90': {},
 	'screen-rotate-270': {},
+	'invisible': {},
+	'size-up': {},
+	'size-down': {},
 };
 
 // Animations

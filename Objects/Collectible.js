@@ -6,7 +6,10 @@ class Collectible {
 		'jump-lower', 
 		'screen-rotate-180', 
 		'screen-rotate-90', 
-		'screen-rotate-270'
+		'screen-rotate-270',
+		'invisible',
+		'size-up',
+		'size-down',
 		];
 		let randomClassIndex = floor(random(0, classes.length));
 		let randomClass = classes[randomClassIndex];
