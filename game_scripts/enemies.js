@@ -37,7 +37,7 @@ function enemiesCollidePlatforms() {
 
 
 function enemiesShoot(e) {
-	if (e.class === 'shooting' && e.overlap(displayFrame)) {
+	if (e.class === 'shooting' && e.overlap(displayFrame) && hero.sprite.visible) {
 		if (frameCount % 64 === 0) {
 			const x = e.position.x;
 			const y = e.position.y;
