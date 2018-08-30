@@ -1,101 +1,104 @@
 <!DOCTYPE html>
 <html>
-   <head>
-     <title>Higher Up</title>
+<head>
+ <title>Higher Up</title>
 
-     <script src="./lib/p5.min.js" type="text/javascript"></script>
-     <script src="./lib/p5.play.js" type="text/javascript"></script>  
+ <script src="./lib/p5.min.js" type="text/javascript"></script>
+ <script src="./lib/p5.play.js" type="text/javascript"></script>  
 
 
-     <script src="./Objects/Platform.js" type="text/javascript"></script>
-     <script src="./Objects/Enemy.js" type="text/javascript"></script>
+ <script src="./Objects/Platform.js" type="text/javascript"></script>
+ <script src="./Objects/Enemy.js" type="text/javascript"></script>
 
-     <script src="./Objects/Shots/Shot.js" type="text/javascript"></script>
-     <script src="./Objects/Shots/HeroShot.js" type="text/javascript"></script>
+ <script src="./Objects/Shots/Shot.js" type="text/javascript"></script>
+ <script src="./Objects/Shots/HeroShot.js" type="text/javascript"></script>
 
-     <script src="./Objects/Collectible.js" type="text/javascript"></script>
+ <script src="./Objects/Collectible.js" type="text/javascript"></script>
 
-     <script src="game_scripts/properties.js" type="text/javascript"></script>  
-     <script src="game_scripts/preload.js" type="text/javascript"></script>  
-     <script src="game_scripts/setup.js" type="text/javascript"></script>  
-     <script src="game_scripts/hero.js" type="text/javascript"></script>  
-     <script src="game_scripts/enemies.js" type="text/javascript"></script>  
-     <script src="game_scripts/shots.js" type="text/javascript"></script>  
-     <script src="game_scripts/collectibles.js" type="text/javascript"></script>  
-     <script src="game_scripts/other.js" type="text/javascript"></script>  
-     <script src="game_scripts/tech_stuff.js" type="text/javascript"></script>  
+ <script src="game_scripts/properties.js" type="text/javascript"></script>  
+ <script src="game_scripts/preload.js" type="text/javascript"></script>  
+ <script src="game_scripts/setup.js" type="text/javascript"></script>  
+ <script src="game_scripts/hero.js" type="text/javascript"></script>  
+ <script src="game_scripts/enemies.js" type="text/javascript"></script>  
+ <script src="game_scripts/shots.js" type="text/javascript"></script>  
+ <script src="game_scripts/collectibles.js" type="text/javascript"></script>  
+ <script src="game_scripts/other.js" type="text/javascript"></script>  
+ <script src="game_scripts/tech_stuff.js" type="text/javascript"></script>  
 
-     <script src="sketch.js" type="text/javascript"></script>
+ <script src="sketch.js" type="text/javascript"></script>
 
-     <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
-    
-     <style type="text/css">
+ <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
 
-       body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        min-height: 95vh;
-        background-color: #4C7ED0;
-       }
+ <style type="text/css">
 
-       canvas {
-        border: 1px solid black;
-        border-top: none;
-        /*transform: rotate(0deg);*/
-       }
+ body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 95vh;
+  background-color: #4C7ED0;
+}
 
-       #gui {
-        border: 1px solid black;
-        border-radius: 5px 5px 0 0;
-        font-size: 1.5em;
-        display: flex;
-        width: 800px;
-        color: #333;
-        background-color: rgba(255, 255, 255, 0.5);
-        font-family: 'Pangolin', cursive;
-       }
+canvas {
+  border: 1px solid black;
+  border-top: none;
+  /*transform: rotate(0deg);*/
+}
 
-       #gui > * {
-        padding: 0.3em 1em;
-        border-right: 1px solid black;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-       }
+#gui {
+  border: 1px solid black;
+  border-radius: 5px 5px 0 0;
+  font-size: 1.5em;
+  display: flex;
+  width: 800px;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.5);
+  font-family: 'Pangolin', cursive;
+}
 
-       #cur-shots-num {
-        background-color: #78a;
-        height: 1em; 
-        border: 1px solid black;
-        border-radius: 2px;
-       }
+#gui > * {
+  padding: 0.3em 1em;
+  border-right: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-       #collect-effect-duration {
-        background-color: #a87;
-        height: 1em; 
-        border: 1px solid black;
-        border-radius: 2px;
-       }
+#cur-shots-num {
+  background-color: #78a;
+  height: 1em; 
+  border: 1px solid black;
+  border-radius: 2px;
+}
 
-     </style>
-   </head>
-   <body>
-    <div id="gui">
-      <div class="cur-shots-num-wrapper">
-        <span>Заряд</span> 
-        <div id="cur-shots-num"></div>
-      </div>
-      <div class="max-height-score-wrapper">
-        <span>Макс высота</span> 
-        <span id="max-height-score"></span>
-      </div>
-      <div class="collect-effect-wrapper">
-        <span>Эффект</span> 
-        <div id="collect-effect-duration"></div>
-      </div>
+#collect-effect-duration {
+  background-color: #a87;
+  height: 1em; 
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+</style>
+</head>
+<body>
+  <div id="gui">
+    <div class="cur-shots-num-wrapper">
+      <span>Заряд</span> 
+      <div id="cur-shots-num"></div>
     </div>
-    
-   </body>
+    <div class="max-height-score-wrapper">
+      <span>Макс высота</span> 
+      <span id="max-height-score"></span>
+    </div>
+    <div class="collect-effect-wrapper">
+      <div>
+        <span>Эффект</span> 
+        <span id="effectNameEl"></span>
+      </div>
+      <div id="collect-effect-duration"></div>
+    </div>
+  </div>
+
+</body>
 </html>

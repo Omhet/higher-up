@@ -43,10 +43,12 @@ function collectsEffects(c) {
 
 		if (c.class === 'jump-higher') {
 			hero.jumpForce = COLLECT_JUMP_HIGHER;
+			effectNameEl.textContent = 'Сильный прыжок';
 		}
 
 		else if (c.class === 'jump-lower') {
 			hero.jumpForce = COLLECT_JUMP_LOWER;
+			effectNameEl.textContent = 'Слабый прыжок';
 		}
 
 		else if (c.class === 'screen-rotate-180') {
@@ -72,6 +74,8 @@ function collectsEffects(c) {
 
 			hero.jumpForce = HERO_JUMP_FORCE;
 			canvas.style.transform = 'rotate(0deg)';
+
+			effectNameEl.textContent = '';
 
 			collectEffectActive = false;
 			effectDuration = 0;
