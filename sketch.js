@@ -16,11 +16,12 @@ HALF_H = H / 2;
 DOUBLE_W = W * 2;
 DOUBLE_H = H * 2;
 
-DISPLAY_SPEED = -0.9;
+DISPLAY_MIN_SPEED = -1;
+DISPLAY_MAX_SPEED = -5;
 
 CAMERA_ZOOM = 0.5;
 
-DEBUG_MODE = true;
+DEBUG_MODE = false;
 
 // Constants for objects
 G = 0.2;
@@ -46,6 +47,7 @@ HERO_IMG = {};
 PLATFORM_IMG = {};
 DISPLAY_FRAME_IMAGE = {};
 BACK_IMAGE = {};
+GAME_OVER_IMAGE = {};
 
 
 // Animations
@@ -57,6 +59,7 @@ SHOT_HERO_MAX_SPEED = 17;
 
 // Globals
 let displayFrame = {};
+let displaySpeed = 0;
 
 let platforms = {};
 let enemies = {};
@@ -76,6 +79,7 @@ function preload() {
 	PLATFORM_IMG = loadImage('images/platform_1.png');
 	DISPLAY_FRAME_IMAGE = loadImage('images/water_back_3.png');
 	BACK_IMAGE = loadImage('images/oil_back_1.png');
+	GAME_OVER_IMAGE = loadImage('images/game_over.png');
 
 	ANIMATION_ENEMY_BASIC = loadAnimation('animations/enemy_basic_1/output-0.png', 
 		'animations/enemy_basic_1/output-47.png');
@@ -86,6 +90,7 @@ function setupDisplayFrame() {
 	displayFrame = createSprite(HALF_W, HALF_H, W / CAMERA_ZOOM, (H / CAMERA_ZOOM) * 1.5);
 	DISPLAY_FRAME_IMAGE.resize(displayFrame.width, displayFrame.height);
 	displayFrame.addImage(DISPLAY_FRAME_IMAGE);
+	displaySpeed = DISPLAY_MIN_SPEED;
 }
 
 function platformsSpawn(n) {
@@ -308,6 +313,7 @@ function heroDeath() {
 		hero.sprite.remove();
 		hero.dead = true;
 		gameOver = true;
+		displaySpeed = DISPLAY_MAX_SPEED;
 	}
 }
 
@@ -393,7 +399,11 @@ function moveDisplay() {
 	if (ht < displayFrame.position.y) {
 		displayFrame.position.y -= 10;
 	}
-	displayFrame.velocity.y = DISPLAY_SPEED;
+	if (displayFrame.position.y + displayFrame.height / 2 < hero.sprite.position.y - H) {
+		displaySpeed = 0;
+	}
+	// logging(ht);
+	displayFrame.velocity.y = displaySpeed;
 }
 
 function collideDisplay() {
@@ -591,6 +601,7 @@ function draw() {
 
 	// camera.off();
 	image(BACK_IMAGE, BACK_IMAGE_X, BACK_IMAGE_Y, DOUBLE_W, BACK_IMAGE_HALF_H);
+	image(GAME_OVER_IMAGE, BACK_IMAGE_X, BACK_IMAGE_Y + GAME_OVER_IMAGE.height, DOUBLE_W, GAME_OVER_IMAGE.height * 1.5);
 
 }
 
