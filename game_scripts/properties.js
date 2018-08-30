@@ -5,11 +5,8 @@ let collectEffectDurationEl;
 let guiEl;
 
 // Constants for game
-// W = window.innerWidth / 2;
 W = 800;
 H = window.innerHeight / 1.5;
-// W = 800;
-// H = 600;
 HALF_W = W / 2;
 HALF_H = H / 2;
 DOUBLE_W = W * 2;
@@ -47,7 +44,7 @@ ENEMY_SIZE = HERO_SIZE;
 
 // Collectibles
 COLLECT_MAX_NUM = PLATFORM_MAX_NUM / 5;
-COLLECT_SIZE = HERO_SIZE;
+COLLECT_SIZE = HERO_SIZE * 2;
 COLLECT_EFFECT_DURATION = 1500;
 
 COLLECT_JUMP_HIGHER = HERO_JUMP_FORCE * 2;
@@ -62,6 +59,9 @@ PLATFORM_IMG = {};
 DISPLAY_FRAME_IMAGE = {};
 BACK_IMAGE = {};
 GAME_OVER_IMAGE = {};
+
+COLLECT_IMG_JUMP_HIGHER = {};
+COLLECT_IMG_JUMP_LOWER = {};
 
 
 // Animations

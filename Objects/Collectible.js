@@ -6,14 +6,13 @@ class Collectible {
 		switch (randomClass) {
 			case 0:
 				this.sprite.class = 'jump-higher'
-				this.sprite.shapeColor = color(0, 0, 151);
+				this.sprite.addImage(COLLECT_IMG_JUMP_HIGHER);
 				break;
 			case 1:
 				this.sprite.class = 'jump-lower'
-				this.sprite.shapeColor = color(0, 151, 51);
+				this.sprite.addImage(COLLECT_IMG_JUMP_LOWER);
 				break;
 		}
-		// this.ENEMY_ANIM = this.sprite.addAnimation('idle', ANIMATION_ENEMY_BASIC);
 		// this.sprite.scale = 0.3;
 	}
 }
