@@ -32,6 +32,7 @@ HERO_SPEED = 5;
 HERO_SIZE = 50;
 HERO_SCALE = 1.3;
 HERO_JUMP_FORCE = -10;
+HERO_MAX_JUMP_NUM = 2;
 HERO_MAX_SHOTS_NUM = 5;
 HERO_START_HP = 3;
 HERO_MAX_HP = 6;
@@ -80,6 +81,7 @@ COLECT_IMG_MAP = {
 	'size-up': {},
 	'size-down': {},
 	'heart': {},
+	'immortal': {},
 };
 
 // Animations

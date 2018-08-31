@@ -155,7 +155,7 @@ function heroTakeHealth(n) {
 
 function heroImmortalCount() {
 	if (frameCount % 200 === 0) {
-		if (hero.immortal) {
+		if (hero.immortal && hero.immortalCollectEffect) {
 			hero.immortal = false;
 			hero.sprite.visible = true;
 		}

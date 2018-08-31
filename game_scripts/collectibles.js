@@ -43,6 +43,7 @@ function collectsEffects(c) {
 
 		if (c.class === 'jump-higher') {
 			hero.jumpForce = COLLECT_JUMP_HIGHER;
+			hero.curJumpNum = HERO_MAX_JUMP_NUM;
 			effectNameEl.textContent += ' Сильный прыжок';
 		}
 
@@ -88,6 +89,11 @@ function collectsEffects(c) {
 			heroTakeHealth(COLLECT_HEART_HP);
 		}
 
+		if (c.class === 'immortal') {
+			hero.immortal = true;
+			hero.immortalCollectEffect = true;
+		}
+
 		c.remove();
 	}
 
@@ -100,6 +106,9 @@ function collectsEffects(c) {
 			hero.sprite.scale = HERO_SCALE;
 			hero.sprite.width = hero.sprite.originalWidth;
 			hero.sprite.height = hero.sprite.originalHeight;
+
+			hero.immortal = false;
+			hero.immortalCollectEffect = false;
 
 			hero.jumpForce = HERO_JUMP_FORCE;
 			hero.sprite.visible = true;

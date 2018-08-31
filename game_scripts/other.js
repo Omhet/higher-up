@@ -91,8 +91,40 @@ function spawnPlatformsRightTime() {
 	}
 }
 
+// function platformsMove() {
+// 	platforms.forEach(p => {
+// 		allSprites.forEach((sp) => {
+// 			if (sp.overlap(p) && !sp.isStatic) {
+// 				sp.velocity.x = p.velocity.x;
+// 			}
+// 			else if (sp.overlap(p) && sp.isStatic) {
+// 				sp.velocity.x *= -1;
+// 			}
+// 		});
+// 		p.velocity.x = p.speed;
+// 	});
+// }
+
 function platformsMove() {
 	platforms.forEach(p => {
 		p.velocity.x = p.speed;
+		// p.bounce(platforms);
+		// if (p.collide(platforms)) {
+		// 	console.log('collide');
+		// 	p.speed = -p.speed;
+		// }
+	});
+}
+
+
+function spritesMovesWithPlatforms() {
+	allSprites.forEach(sp => {
+		if (!sp.isStatic) {
+			platforms.forEach((p) => {
+				if (sp.overlap(p)) {
+					sp.velocity.x = p.velocity.x;
+				}
+			});
+		}
 	});
 }

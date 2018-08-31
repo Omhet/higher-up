@@ -1,15 +1,4 @@
 
-function spritesMovesWithPlatforms() {
-	allSprites.forEach(sp => {
-		if (!sp.isStatic) {
-			platforms.forEach((p) => {
-				if (sp.overlap(p)) {
-					sp.velocity.x = p.velocity.x;
-				}
-			});
-		}
-	});
-}
 
 function draw() {
 	background('rgba(0, 0, 0, 1)');
@@ -48,8 +37,8 @@ function draw() {
 	spawnEnemiesRightTime();
 	spawnCollectsRightTime();
 
-	platformsMove();
-	spritesMovesWithPlatforms();
+	// platformsMove();
+	// spritesMovesWithPlatforms();
 
 	// Scores
 	countHeight();
