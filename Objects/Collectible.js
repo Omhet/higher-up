@@ -10,6 +10,7 @@ class Collectible {
 		'invisible',
 		'size-up',
 		'size-down',
+		'heart'
 		];
 		let randomClassIndex = floor(random(0, classes.length));
 		let randomClass = classes[randomClassIndex];

@@ -6,7 +6,9 @@
 
 function gravity() {
 	allSprites.forEach(sp => {
-		sp.addSpeed(G, 90);
+		if (!sp.isStatic) {
+			sp.addSpeed(G, 90);
+		}
 		sp.velocity.y = (sp.velocity.y > SPRITE_VELOCITY_Y_MAX) 
 		? SPRITE_VELOCITY_Y_MAX 
 		: sp.velocity.y;
@@ -25,7 +27,7 @@ function moveDisplay() {
 	if (ht < displayFrame.position.y) {
 		displayFrame.position.y -= 10;
 	}
-	if (displayFrame.position.y + displayFrame.height / 2 < hero.sprite.position.y - H) {
+	if (displayFrame.position.y + displayFrame.height / 2 < hero.sprite.position.y - H || DEBUG_MODE) {
 		displaySpeed = 0;
 	}
 	displayFrame.velocity.y = displaySpeed;
@@ -87,4 +89,10 @@ function spawnPlatformsRightTime() {
 	if (platforms.length < PLATFORM_MAX_NUM) {
 		platformsSpawn(PLATFORM_MAX_NUM - platforms.length);
 	}
+}
+
+function platformsMove() {
+	platforms.forEach(p => {
+		p.velocity.x = p.speed;
+	});
 }

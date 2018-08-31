@@ -84,6 +84,10 @@ function collectsEffects(c) {
 			effectNameEl.textContent += ' Маленький Размер';
 		}
 
+		if (c.class === 'heart') {
+			heroTakeHealth(COLLECT_HEART_HP);
+		}
+
 		c.remove();
 	}
 
