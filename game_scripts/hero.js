@@ -31,10 +31,12 @@ function heroMove() {
 
 		if (keyDown('a')) {
 			hsp.position.x -= hero.speed;
+			hsp.mirrorX(1);
 		}
 
 		if (keyDown('d')) {
 			hsp.position.x += hero.speed;
+			hsp.mirrorX(-1);
 		}
 
 		if (hero.sprite.overlap(platforms)) {

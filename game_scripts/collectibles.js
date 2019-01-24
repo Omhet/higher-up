@@ -87,11 +87,13 @@ function collectsEffects(c) {
 
 		if (c.class === 'heart') {
 			heroTakeHealth(COLLECT_HEART_HP);
+			effectNameEl.textContent += ' Доп Жизнь';
 		}
 
 		if (c.class === 'immortal') {
 			hero.immortal = true;
 			hero.immortalCollectEffect = true;
+			effectNameEl.textContent += ' Неуязвимость';
 		}
 
 		c.remove();

@@ -37,6 +37,7 @@ function heroSetup() {
 	hero.sprite = createSprite(HALF_W, HALF_H - HERO_SIZE, HERO_SIZE, HERO_SIZE);
 	hero.sprite.scale = HERO_SCALE;
 
+
 	hero.sprite.addImage(HERO_IMG);
 
 
